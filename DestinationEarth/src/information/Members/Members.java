@@ -15,6 +15,7 @@ public abstract class Members {
     int movement;
     
     public abstract String getName();
+    public abstract void setName(String name);
     public abstract int getMovement();
-    public abstract void setMovement(int movement);
+    public abstract void setMovement();
 }
