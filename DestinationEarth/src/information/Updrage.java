@@ -9,6 +9,6 @@ package information;
  *
  * @author Leonardo
  */
-public class Alliens {
+public class Updrage {
     
 }
