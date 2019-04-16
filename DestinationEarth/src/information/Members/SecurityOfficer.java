@@ -9,6 +9,32 @@ package information.Members;
  *
  * @author Tiago Alves
  */
-public class SecurityOfficer {
+public class SecurityOfficer extends Members {
+    SecurityOfficer(){
+        name = "SecurityOfficer";
+        attack = 2;
+        movement = 1;
+    }
     
+    public String getName(){
+        return name;
+    }
+    
+    public int getAttack(){ 
+        return attack;
+    }
+    
+    public void setAttack(int attack){
+         this.attack = attack;
+    }
+    
+    public int getMovement(){
+        return movement;
+    }
+    
+    public void setMovement(int movement){
+         this.movement = movement;
+    }
 }
+    
+

@@ -8,7 +8,7 @@ package information.Members;
 
 public class CommsOfficer extends Members{
     CommsOfficer(){
-        name = "Doctor";
+        name = "CommsOfficer";
         attack = 1;
         movement = 1;
     }
