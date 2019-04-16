@@ -5,6 +5,7 @@
  */
 package information.Members;
 
+
 /**
  *
  * @author Leonardo
@@ -15,6 +16,20 @@ public abstract class Members {
     int movement;
     
     public abstract String getName();
-    public abstract int getMovement();
-    public abstract void setMovement(int movement);
+    
+    public int getMovement(){
+        return movement;
+    }
+    
+    public void setMovement(int movement){
+        this.movement = movement;
+    }
+    
+    public int getAttack(){ 
+        return attack;
+    }
+    
+    public void setAttack(int attack){
+         this.attack = attack;
+    }
 }

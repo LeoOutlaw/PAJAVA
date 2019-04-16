@@ -10,7 +10,7 @@ package information.Members;
  * @author Tiago Alves
  */
 public class Captain extends Members{
-    Captain(){
+    public Captain(){
         name = "Captain";
         attack = 1;
         movement = 1;
@@ -20,19 +20,4 @@ public class Captain extends Members{
         return name;
     }
     
-    public int getAttack(){ 
-        return attack;
-    }
-    
-    public void setAttack(int attack){
-         this.attack = attack;
-    }
-    
-    public int getMovement(){
-        return movement;
-    }
-    
-    public void setMovement(int movement){
-         this.movement = movement;
-    }
 }

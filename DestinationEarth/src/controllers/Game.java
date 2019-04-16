@@ -15,7 +15,6 @@ package controllers;
 public class Game {
     
     private GameData gameData;
-    private ISat states;
     
     public Game(){
         gameData = new GameData();

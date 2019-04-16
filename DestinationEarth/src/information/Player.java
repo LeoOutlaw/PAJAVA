@@ -1,9 +1,14 @@
 package information;
+
   /*
     Aqui acho que temos de ter guardado informaçao sobre o player
     ou seja quem sao os membros quanta vida têm e em que sala 
     estam na SpaceShip
     */
+
+import information.Members.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Leonardo
@@ -11,11 +16,17 @@ package information;
 public class Player {
     private int hp;
     private int inspirationPoints;
-   // private List<Members> members;
+    private List<Members> members;
     
-    public Player(Settings a){
+    public Player(/*Settings a,*/ Members b, Members c){
         inspirationPoints = 0;
-        hp = a.getHp();
+      //s  hp = a.getHp();
+        members.add(1, c);
+        members.add(2,b);
+    }
+    
+    public List getMembers(){
+        return members;
     }
     
     public int getHp(){

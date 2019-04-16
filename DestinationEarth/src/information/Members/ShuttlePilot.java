@@ -10,7 +10,7 @@ package information.Members;
  * @author Tiago Alves
  */
 public class ShuttlePilot extends Members {
-    ShuttlePilot(){
+    public ShuttlePilot(){
         name = "ShuttlePilot";
         attack = 1;
         movement = 1;
@@ -20,20 +20,5 @@ public class ShuttlePilot extends Members {
         return name;
     }
     
-    public int getAttack(){ 
-        return attack;
-    }
-    
-    public void setAttack(int attack){
-         this.attack = attack;
-    }
-    
-    public int getMovement(){
-        return movement;
-    }
-    
-    public void setMovement(int movement){
-         this.movement = movement;
-    }
 }
 

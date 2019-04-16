@@ -10,7 +10,7 @@ package information.Members;
  * @author Tiago Alves
  */
 public class TransporterChief extends Members {
-    TransporterChief(){
+    public TransporterChief(){
         name = "TransporterChief";
         attack = 1;
         movement = 0;
@@ -20,21 +20,6 @@ public class TransporterChief extends Members {
         return name;
     }
     
-    public int getAttack(){ 
-        return attack;
-    }
-    
-    public void setAttack(int attack){
-         this.attack = attack;
-    }
-    
-    public int getMovement(){
-        return movement;
-    }
-    
-    public void setMovement(int movement){
-         this.movement = movement;
-    }
 }
     
 

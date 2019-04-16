@@ -7,7 +7,7 @@ package information.Members;
 
 
 public class CommsOfficer extends Members{
-    CommsOfficer(){
+    public CommsOfficer(){
         name = "CommsOfficer";
         attack = 1;
         movement = 1;
@@ -17,20 +17,5 @@ public class CommsOfficer extends Members{
         return name;
     }
     
-    public int getAttack(){ 
-        return attack;
-    }
-    
-    public void setAttack(int attack){
-         this.attack = attack;
-    }
-    
-    public int getMovement(){
-        return movement;
-    }
-    
-    public void setMovement(int movement){
-         this.movement = movement;
-    }
 }
 

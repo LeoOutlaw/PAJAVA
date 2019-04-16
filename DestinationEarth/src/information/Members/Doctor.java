@@ -10,7 +10,7 @@ package information.Members;
  * @author Leonardo
  */
 public class Doctor extends Members{
-    Doctor(){
+    public Doctor(){
         name = "Doctor";
         attack = 1;
         movement = 1;
@@ -20,19 +20,4 @@ public class Doctor extends Members{
         return name;
     }
     
-    public int getAttack(){ 
-        return attack;
-    }
-    
-    public void setAttack(int attack){
-         this.attack = attack;
-    }
-    
-    public int getMovement(){
-        return movement;
-    }
-    
-    public void setMovement(int movement){
-         this.movement = movement;
-    }
 }
