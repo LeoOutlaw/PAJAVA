@@ -6,20 +6,38 @@
 package controllers;
 
 /**
- * Esta classe vai ter o GameData do jogo e 
- * saber em que estado do jogo estamos
- * Classe superior a GameData e da maquina de estados
- * para que se consiga Ligar a maquina de estados a informaçao do jogo
+ * Esta classe vai ter o GameData do jogo e saber em que estado do jogo estamos
+ * Classe superior a GameData e da maquina de estados para que se consiga Ligar
+ * a maquina de estados a informaçao do jogo
+ *
  * @author Leonardo
  */
+import controllers.stats.AwaitBeginning;
+import controllers.stats.IStates;
+
 public class Game {
-    
+
     private GameData gameData;
-    
-    public Game(){
+    private IStates iStates;
+
+    public Game() {
         gameData = new GameData();
-        // opdjapodfmjapojfpampa
-        
+        setState(new AwaitBeginning(gameData));
     }
-    
+
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public void setGameData(GameData game) {
+        this.gameData = game;
+    }
+
+    public IStates getState() {
+        return iStates;
+    }
+
+    public void setState(IStates state) {
+        this.iStates = state;
+    }
 }

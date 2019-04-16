@@ -17,7 +17,8 @@ public class Settings {
     no GameData
     */
     public Settings(){
-        
+        hp=8;
+        hull=8;
     }
     
     public int getHp(){

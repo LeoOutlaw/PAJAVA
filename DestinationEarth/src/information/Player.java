@@ -21,8 +21,6 @@ public class Player {
     public Player(/*Settings a,*/ Members b, Members c){
         inspirationPoints = 0;
       //s  hp = a.getHp();
-        members.add(1, c);
-        members.add(2,b);
     }
     
     public List getMembers(){

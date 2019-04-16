@@ -9,6 +9,7 @@ package controllers.stats;
  * Neste package faremos a maquina de estados toda
  * @author Leonardo
  */
-public abstract class IStates {
-    
+public interface IStates {
+    IStates selectHP(int hp);
+    IStates selectHull( int hull);
 }
