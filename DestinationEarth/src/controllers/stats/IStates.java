@@ -12,4 +12,7 @@ package controllers.stats;
 public interface IStates {
     IStates selectHP(int hp);
     IStates selectHull( int hull);
+    IStates startGame();
+    IStates chooseMember(int member);
+
 }

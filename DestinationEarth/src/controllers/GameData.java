@@ -8,6 +8,8 @@ import information.SpaceShip;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 /**
  * Aqui basicamente tem toda a informacao sobre o jogo a decorrer
  * Ou seja, todos os Membros, todos os alliens e bombas 
@@ -20,11 +22,20 @@ public class GameData {
     private Player player;
     private SpaceShip ship;
     private Settings settings;
+    
+    private List <String> journey;
     private int numAlliens;
     
     public GameData(){
+        journey = new ArrayList <>();
+        journey.addAll(Arrays.asList("S","2A", "3A", "4A", "5A*", "R", "4A", "5A", "6A*", "R", "6A", "7A*", "R", "8A", "E"));
+        
         settings = new Settings();
         numAlliens = 15;
+    }
+    
+    public Player getPlayer(){
+        return player;
     }
     
     public Settings getSettings(){
@@ -37,6 +48,10 @@ public class GameData {
     
     public void setSpaceShipHull(int hull){
         this.ship.setHull(hull);
+    }
+    
+    public void startgame(){
+        this.player = new Player(settings);
     }
     
 }

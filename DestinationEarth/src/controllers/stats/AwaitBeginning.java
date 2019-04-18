@@ -25,7 +25,9 @@ public class AwaitBeginning extends IStatesAdapter {
         return this;
     }
     
-   /* public IStates startGame(){
-        
-    }*/
+    @Override
+    public IStates startGame(){
+        getGameData().startgame();
+        return new AwaitNewCrewMember(getGameData());
+    }
 }

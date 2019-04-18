@@ -33,6 +33,13 @@ public class IStatesAdapter implements IStates {
         return this;
     }
     
+    @Override
+    public IStates startGame(){
+        return this;
+    }
     
-    
+    @Override
+    public IStates chooseMember(int member){
+        return this;
+    }
 }

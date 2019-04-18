@@ -15,12 +15,20 @@ import java.util.List;
  */
 public class Player {
     private int hp;
+    private int hull;
     private int inspirationPoints;
     private List<Members> members;
     
-    public Player(/*Settings a,*/ Members b, Members c){
+    public Player(Settings a){
         inspirationPoints = 0;
-      //s  hp = a.getHp();
+        hp = a.getHp();
+        hull = a.getHull();
+        members = new ArrayList<>();
+    }
+   
+    
+    public void AddMember(Members member){
+        this.members.add( member);
     }
     
     public List getMembers(){

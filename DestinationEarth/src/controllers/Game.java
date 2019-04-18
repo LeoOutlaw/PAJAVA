@@ -40,4 +40,8 @@ public class Game {
     public void setState(IStates state) {
         this.iStates = state;
     }
+    
+    public void startGame(){
+        setState(getState().startGame());
+    }
 }

@@ -16,6 +16,7 @@ public class Doctor extends Members{
         movement = 1;
     }
     
+    @Override
     public String getName(){
         return name;
     }
