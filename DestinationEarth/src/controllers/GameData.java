@@ -32,6 +32,7 @@ public class GameData {
         
         settings = new Settings();
         numAlliens = 15;
+        ship = new SpaceShip();
     }
     
     public Player getPlayer(){
@@ -53,5 +54,11 @@ public class GameData {
     public void startgame(){
         this.player = new Player(settings);
     }
+
+    public SpaceShip getShip() {
+        return ship;
+    }
+    
+    
     
 }

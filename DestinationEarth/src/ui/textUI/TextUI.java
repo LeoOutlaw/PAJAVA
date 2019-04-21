@@ -2,10 +2,16 @@ package ui.textUI;
 
 import controllers.Game;
 import controllers.stats.*;
+import information.rooms.Bridge;
+import information.rooms.ConferenceRoom;
+import information.rooms.MessHall;
+import information.rooms.ShipRooms;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -27,11 +33,16 @@ public class TextUI {
 
     public void run() {
         while (!quit) {
+
             IStates state = game.getState();
+            System.out.println("state: " + state);
+
             if (state instanceof AwaitBeginning) {
                 uiAwaitBeginning();
             } else if (state instanceof AwaitNewCrewMember) {
                 uiAwaitNewCrewMember();
+            } else if (state instanceof StartGame) {
+                chupameapila();
             }
         }
     }
@@ -158,24 +169,48 @@ public class TextUI {
                 case 1:
                     game.getState().chooseMember(option);
                     break;
-                 case 2:
+                case 2:
                     game.getState().chooseMember(option);
                     break;
-       /*         case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                case 12:*/
                 default:
                     System.out.println("\t Opcao invalida!!\n");
                     break;
             }
         } while (option < 0 && option > 12);
+        if (game.getGameData().getPlayer().getMembers().size() == 2) {
+            this.game.setState(new StartGame(game.getGameData()));
+        }
     }
 
+    private void chupameapila() {
+
+        System.out.println("number of players: " +  game.getGameData().getPlayer().getMembers().size());
+        
+     ShipRooms bridge = game.getGameData().getShip().getBridge();
+             ShipRooms conferenceRoom = game.getGameData().getShip().getConferenceRoom();
+     ShipRooms messHall = game.getGameData().getShip().getMessHall();
+
+        Random r = new Random();
+
+        int randomRoomNumber = r.nextInt(7) + 1;
+
+        if (randomRoomNumber == 1 || randomRoomNumber == 8 || randomRoomNumber == 5) {
+
+            List<ShipRooms> rooms = Arrays.asList(bridge, conferenceRoom, messHall);
+            
+            for (ShipRooms room : rooms) {
+                if (room.getRoomNumber() == randomRoomNumber && room.getUser() == null) {
+                    room.setUser(game.getGameData().getPlayer().getMembers().get(0));
+                    game.getGameData().getPlayer().getMembers().remove(0);
+                }
+            }
+            
+            
+            System.out.println("Quartos: " + rooms);
+        Scanner sc = new Scanner(System.in);
+        sc.next();
+
+            
+        }
+    }
 }

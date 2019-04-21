@@ -25,13 +25,12 @@ public class Player {
         hull = a.getHull();
         members = new ArrayList<>();
     }
-   
-    
+       
     public void AddMember(Members member){
         this.members.add( member);
     }
     
-    public List getMembers(){
+    public List<Members> getMembers(){
         return members;
     }
     
