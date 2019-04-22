@@ -7,6 +7,7 @@ package information.rooms;
 
 import information.alien.Alien;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class Astrometrics extends ShipRooms{
     
     private ConferenceRoom conferenceRoom;
     private Hydroponics hydroponics;
+    private ShuttleBay shuttleBay;
     
     public Astrometrics(){
         name = "Astrometrics";
@@ -25,6 +27,10 @@ public class Astrometrics extends ShipRooms{
     
     public String getName(){
         return name;
+    }
+
+    public void setShuttleBay(ShuttleBay shuttleBay) {
+        this.shuttleBay = shuttleBay;
     }
     
     public void setConferenceRoom(ConferenceRoom conferenceRoom){
@@ -44,4 +50,9 @@ public class Astrometrics extends ShipRooms{
         this.conferenceRoom.moveAliens(aliens);
         aliens.clear();
     }   
+    
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.conferenceRoom, this.hydroponics);
+    }
 }

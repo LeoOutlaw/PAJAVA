@@ -5,6 +5,9 @@
  */
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Tiago Alves
@@ -17,6 +20,14 @@ public class Holodeck extends ShipRooms{
     public Holodeck(){
         name = "Holodeck";
         roomNumber = 11;
+    }
+
+    public void setCrewQuarters(CrewQuarters crewQuarters) {
+        this.crewQuarters = crewQuarters;
+    }
+
+    public void setWeaponsBay(WeaponsBay weaponsBay) {
+        this.weaponsBay = weaponsBay;
     }
     
     public String getName(){
@@ -34,5 +45,9 @@ public class Holodeck extends ShipRooms{
     }
     
     
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.crewQuarters, this.weaponsBay);
+    }
     
 }

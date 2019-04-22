@@ -5,6 +5,9 @@
  */
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Tiago Alves
@@ -39,6 +42,8 @@ public class Bridge extends ShipRooms{
         this.messHall.moveAliens(aliens);
         aliens.clear();
     } 
-    
-    
-}
+
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.conferenceRoom, this.messHall);
+    }}

@@ -5,6 +5,9 @@
  */
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Tiago Alves
@@ -32,4 +35,19 @@ public class Brig extends ShipRooms{
         this.engineering.moveAliens(aliens);
         aliens.clear();
     }
+
+    public void setConferenceRoom(ConferenceRoom conferenceRoom) {
+        this.conferenceRoom = conferenceRoom;
+    }
+
+    public void setEngineering(Engineering engineering) {
+        this.engineering = engineering;
+    }
+    
+    
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.conferenceRoom, this.engineering);
+    }
+    
 }

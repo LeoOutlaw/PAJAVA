@@ -10,14 +10,10 @@ import controllers.GameData;
  *
  * @author Leonardo
  */
-public class StartGame extends IStatesAdapter {
+public class SetupMembers extends IStatesAdapter {
         
    
-    public StartGame (GameData g){
+    public SetupMembers (GameData g){
         super(g);
-    }
-    
-    public void mygame(){
-        System.out.println("This is the start og the game");
     }
 }

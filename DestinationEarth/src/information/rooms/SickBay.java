@@ -5,6 +5,9 @@
  */
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Tiago Alves
@@ -32,5 +35,17 @@ public class SickBay extends ShipRooms{
         this.weaponsBay.moveAliens(aliens);
         aliens.clear();
     }
+
+    public void setMessHall(MessHall messHall) {
+        this.messHall = messHall;
+    }
+
+    public void setWeaponsBay(WeaponsBay weaponsBay) {
+        this.weaponsBay = weaponsBay;
+    }
     
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.messHall, this.weaponsBay);
+    }
 }

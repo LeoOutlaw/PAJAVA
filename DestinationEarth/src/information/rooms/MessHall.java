@@ -5,6 +5,9 @@
  */
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Tiago Alves
@@ -16,7 +19,6 @@ public class MessHall extends ShipRooms{
     private ConferenceRoom conferenceRoom;
     private CrewQuarters crewQuarters;
        
-    
     public MessHall(){
         name = "MessHall";
         roomNumber = 8;
@@ -25,7 +27,22 @@ public class MessHall extends ShipRooms{
     public String getName(){
         return name;
     }
-    
+
+    public void setSickBay(SickBay sickBay) {
+        this.sickBay = sickBay;
+    }
+
+    public void setBridge(Bridge bridge) {
+        this.bridge = bridge;
+    }
+
+    public void setConferenceRoom(ConferenceRoom conferenceRoom) {
+        this.conferenceRoom = conferenceRoom;
+    }
+
+    public void setCrewQuarters(CrewQuarters crewQuarters) {
+        this.crewQuarters = crewQuarters;
+    }
     
     public void moveAlienToCrewQuarters(){
         this.crewQuarters.moveAliens(aliens);
@@ -44,6 +61,12 @@ public class MessHall extends ShipRooms{
     public void moveAlienToBridge(){
         this.bridge.moveAliens(aliens);
         aliens.clear();
+    }
+    
+    
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.conferenceRoom, this.crewQuarters, this.bridge, this.sickBay);
     }
     
 }

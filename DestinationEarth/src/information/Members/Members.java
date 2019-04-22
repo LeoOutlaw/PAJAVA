@@ -32,4 +32,11 @@ public abstract class Members {
     public void setAttack(int attack){
          this.attack = attack;
     }
+
+    @Override
+    public String toString() {
+        return "Members{" + "name=" + name + '}';
+    }
+    
+    
 }

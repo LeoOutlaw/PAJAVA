@@ -1,5 +1,8 @@
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Hydroponics extends ShipRooms{
     
     private Engineering engineering;
@@ -8,14 +11,19 @@ public class Hydroponics extends ShipRooms{
     public Hydroponics(){
         name = "MessHall";
         roomNumber = 12;
-        neighbors[0] = 10;
-        neighbors[1] = 9;
     }
     
     public String getName(){
         return name;
     }  
-    
+
+    public void setEngineering(Engineering engineering) {
+        this.engineering = engineering;
+    }
+
+    public void setAstrometrics(Astrometrics astrometrics) {
+        this.astrometrics = astrometrics;
+    }
     
     public void moveAlienToEngineering(){
         this.engineering.moveAliens(aliens);
@@ -25,6 +33,12 @@ public class Hydroponics extends ShipRooms{
     public void moveAlienToAstrometrics(){
         this.astrometrics.moveAliens(aliens);
         aliens.clear();
+    }
+    
+    
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.astrometrics, this.engineering);
     }
     
 }

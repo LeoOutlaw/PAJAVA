@@ -13,16 +13,19 @@ public abstract class ShipRooms {
     private boolean sealed;
     private boolean hasOrganicDetonator;
     private boolean hasParticleDisperser;
+    
     List<Alien> aliens;
-
-    Members user;
-
-    public void setUser(Members user) {
-        this.user = user;
-    }
-
+    List<Members> users;
+    
+    public abstract List<ShipRooms> getNeighbours();
+    
     public ShipRooms() {
         aliens = new ArrayList();
+        users = new ArrayList();
+    }
+    
+    public void setUser(Members user) {
+        this.users.add(user);
     }
 
     //List<Integer> listNeighbors = new ArrayList<>() ;
@@ -51,6 +54,10 @@ public abstract class ShipRooms {
 
     public void moveAliens(List<Alien> aliens) {
         this.aliens.addAll(aliens);
+    }
+    
+    public void addAlien(Alien alien) {
+        this.aliens.add(alien);
     }
 
     public void setOrganicDetonator() {
@@ -85,18 +92,20 @@ public abstract class ShipRooms {
         return aliens;
     }
 
-    public Members getUser() {
-        return user;
+    public List<Members> getUser() {
+        return users;
     }
     
-    
-
     @Override
     public String toString() {
-        if (user != null) {
-            return "ShipRooms{" + "roomNumber=" + roomNumber + ", name=" + name + ", neighbors=" + neighbors + ", sealed=" + sealed + ", hasOrganicDetonator=" + hasOrganicDetonator + ", hasParticleDisperser=" + hasParticleDisperser + ", aliens=" + aliens + ", user=" + user.getName() + '}';
+        if (users != null && users.size() > 0) {
+            return "ShipRoom{" + "roomNumber=" + roomNumber + ", name=" + name + ", sealed=" + sealed + ", hasOrganicDetonator=" + hasOrganicDetonator + ", hasParticleDisperser=" + hasParticleDisperser + ", aliens=" + aliens + ", user=" + users + "} \\n";
         } else {
-            return "ShipRooms{" + "roomNumber=" + roomNumber + ", name=" + name + ", neighbors=" + neighbors + ", sealed=" + sealed + ", hasOrganicDetonator=" + hasOrganicDetonator + ", hasParticleDisperser=" + hasParticleDisperser + ", aliens=" + aliens + ", user= NO_USER}";
+            return "ShipRoom{" + "roomNumber=" + roomNumber + ", name=" + name + ", sealed=" + sealed + ", hasOrganicDetonator=" + hasOrganicDetonator + ", hasParticleDisperser=" + hasParticleDisperser + ", aliens=" + aliens + ", user= NO_USER} \\n";
         }
+    }
+
+    public void deleteAllAliens() {
+        this.aliens.clear();
     }
 }

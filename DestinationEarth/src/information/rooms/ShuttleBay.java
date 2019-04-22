@@ -5,6 +5,9 @@
  */
 package information.rooms;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Tiago Alves
@@ -21,6 +24,14 @@ public class ShuttleBay extends ShipRooms{
     public String getName(){
         return name;
     }
+
+    public void setSickBay(SickBay sickBay) {
+        this.sickBay = sickBay;
+    }
+
+    public void setAstrometrics(Astrometrics astrometrics) {
+        this.astrometrics = astrometrics;
+    }
     
     public void moveAlienToSickBay(){
         this.sickBay.moveAliens(aliens);
@@ -32,4 +43,8 @@ public class ShuttleBay extends ShipRooms{
         aliens.clear();
     }
     
+    @Override
+    public List<ShipRooms> getNeighbours() {
+        return Arrays.asList(this.astrometrics, this.sickBay);
+    }
 }
