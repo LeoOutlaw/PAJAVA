@@ -20,6 +20,10 @@ public class NavigationOfficer extends Members{
         return name;
     }
     
+    @Override
+    public void move2Times(){
+        
+    }
 }
     
 

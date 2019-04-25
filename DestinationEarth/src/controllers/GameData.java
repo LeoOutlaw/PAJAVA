@@ -29,8 +29,12 @@ public class GameData {
     private int numAlliens;
 
     private int turn = 0;
+    private int actionPoints;
 
+    private String msg;
+    
     public GameData() {
+        msg = "";
         journey = Arrays.asList("S", "2A", "3A", "4A", "5A*", "R", "4A", "5A", "6A*", "R", "6A", "7A*", "R", "8A", "E");
 
         settings = new Settings();
@@ -73,9 +77,28 @@ public class GameData {
     public int roll2Dice() {
         return rollDice() + rollDice();
     }
-    
+
     public int rollDice() {
         return (int) (Math.random() * 6 + 1);
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+    
+    public int getActionPoints(){
+        return actionPoints;
+    }
+    
+    public void decementActionPoints(){
+        this.actionPoints = this.actionPoints-1;
+    }
+    
+    public void setTurnActionPoints(){
+        this.actionPoints = getPlayer().getActionPoints();
+    }
 }

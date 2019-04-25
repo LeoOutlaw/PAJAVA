@@ -5,6 +5,8 @@
  */
 package information.Members;
 
+import controllers.GameData;
+
 /**
  *
  * @author Tiago Alves
@@ -18,6 +20,18 @@ public class Engineer extends Members{
     
     public String getName(){
         return name;
+    }
+    
+    public void setHullInspiration(GameData game){
+        game.getPlayer().setHp( game.getShip().getHull()+2);
+    }
+    
+    public void setHullActionPoints(GameData game){
+        game.getPlayer().setHp( game.getShip().getHull()+1);
+    }
+    
+    public void setHullEngenniring(GameData game){ // Atencao na confirmaçao se esta mesmo na sala
+        game.getPlayer().setHp( game.getShip().getHull()+1);
     }
     
 }

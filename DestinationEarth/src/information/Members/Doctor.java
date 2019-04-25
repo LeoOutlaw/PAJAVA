@@ -5,6 +5,8 @@
  */
 package information.Members;
 
+import controllers.GameData;
+
 /**
  *
  * @author Leonardo
@@ -19,6 +21,18 @@ public class Doctor extends Members{
     @Override
     public String getName(){
         return name;
+    }
+    
+    public void setHpInspiration(GameData game){
+        game.getPlayer().setHp( game.getPlayer().getHp()+2);
+    }
+    
+    public void setHpActionPoints(GameData game){
+        game.getPlayer().setHp( game.getPlayer().getHp()+1);
+    }
+    
+    public void setHpSickbay(GameData game){ // Atencao na confirmaçao se esta mesmo na sala
+        game.getPlayer().setHp( game.getPlayer().getHp()+1);
     }
     
 }

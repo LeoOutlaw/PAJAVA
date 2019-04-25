@@ -42,4 +42,28 @@ public class IStatesAdapter implements IStates {
     public IStates chooseMember(int member){
         return this;
     }
+    
+    @Override
+    public IStates setPlayers(){
+        return this;
+    }
+    
+    @Override
+    public IStates journeyTracker(int length){
+        return this;
+    }
+    
+    @Override
+    public IStates allienAssign (int n_alliens){
+        return this;
+    }
+    
+    @Override
+    public IStates passCrewPhase(){
+        return this;
+    }
+    
+    public IStates setActionPoints(){
+        return this;
+    }
 }

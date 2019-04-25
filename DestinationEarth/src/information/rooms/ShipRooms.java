@@ -16,16 +16,22 @@ public abstract class ShipRooms {
     
     List<Alien> aliens;
     List<Members> users;
+   // List<ShipRooms>vizinhos;
     
     public abstract List<ShipRooms> getNeighbours();
     
     public ShipRooms() {
         aliens = new ArrayList();
         users = new ArrayList();
+        //vizinhos = new ArrayList();
     }
     
     public void setUser(Members user) {
         this.users.add(user);
+    }
+    
+    public void removeUser(Members user){
+        this.users.remove(user);
     }
 
     //List<Integer> listNeighbors = new ArrayList<>() ;

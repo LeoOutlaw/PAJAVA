@@ -5,6 +5,8 @@
  */
 package information.Members;
 
+import controllers.*;
+
 
 /**
  *
@@ -36,6 +38,10 @@ public abstract class Members {
     @Override
     public String toString() {
         return "Members{" + "name=" + name + '}';
+    }
+    
+    public void move2Times(){
+        
     }
     
     
