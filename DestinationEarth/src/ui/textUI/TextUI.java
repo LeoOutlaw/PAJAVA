@@ -320,8 +320,12 @@ public class TextUI {
             if(room.getUser().contains(get)){
                 System.out.println("Room " + room.getName() + " has these neighbours: ");
                 System.out.println(room.getNeighbours());
+                System.out.println("indique o quarto para o qual se pretende mover:");
                 
-                // pede ao utilizador para fornecer o numero da sala vizinha e atribui o membero em causa para la e remove da sala actual.
+                
+                
+                // pede ao utilizador para fornecer o numero da sala vizinha e atribui o membro em causa para la e remove da sala actual.
+                
                 // decrementa action point
        
             }
