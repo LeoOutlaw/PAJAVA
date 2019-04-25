@@ -5,6 +5,8 @@
  */
 package information.Members;
 
+import controllers.GameData;
+
 
 public class CommsOfficer extends Members{
     public CommsOfficer(){
@@ -15,6 +17,10 @@ public class CommsOfficer extends Members{
     
     public String getName(){
         return name;
+    }
+    
+    public int rollDiceNotAttack(GameData game){
+        return game.rollDice();
     }
     
 }

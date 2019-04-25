@@ -43,6 +43,14 @@ public class TextUI {
                 setPlayersIntoRooms();
             } else if (state instanceof Turn) {
                 advanceTurn();
+            } else if (state instanceof AwaitAlliensPlacement) {
+                uiAwaitAlliensPlacement();
+            } else if (state instanceof AwaitRestPhase) {
+                uiAwaitRestPhase();
+            } else if (state instanceof AwaitCrewPhase) {
+                uiAwaitCrewPhase();
+            } else if (state instanceof AwaitAlienPhase) {
+                uiAwaitAlienPhase();
             }
         }
     }
@@ -145,7 +153,7 @@ public class TextUI {
         System.out.println("\t2 - Captain");
         System.out.println("\t3 - Commander");
         System.out.println("\t4 - Comms Officer");
-        System.out.println("\t5 - Enginer");
+        System.out.println("\t5 - Engineer");
         System.out.println("\t6 - Moral Officer");
         System.out.println("\t7 - Navigation Officer");
         System.out.println("\t8 - Red Shirt");
@@ -166,51 +174,61 @@ public class TextUI {
                     quit = true;
                     break;
                 case 1:
-                    game.getState().chooseMember(option);
+                    game.chooseMember(option);
                     break;
                 case 2:
-                    game.getState().chooseMember(option);
+                    game.chooseMember(option);
+                    break;
+                case 3:
+                    game.chooseMember(option);
+                    break;
+                case 4:
+                    game.chooseMember(option);
+                    break;
+                case 5:
+                    game.chooseMember(option);
+                    break;
+                case 6:
+                    game.chooseMember(option);
+                    break;
+                case 7:
+                    game.chooseMember(option);
+                    break;
+                case 8:
+                    game.chooseMember(option);
+                    break;
+                case 9:
+                    game.chooseMember(option);
+                    break;
+                case 10:
+                    game.chooseMember(option);
+                    break;
+                case 11:
+                    game.chooseMember(option);
+                    break;
+                case 12:
+                    game.chooseMember(option);
                     break;
                 default:
                     System.out.println("\t Opcao invalida!!\n");
                     break;
             }
         } while (option < 0 && option > 12);
-        if (game.getGameData().getPlayer().getMembers().size() == 2) {
-            this.game.setState(new SetupMembers(game.getGameData()));
-        }
     }
 
     private void setPlayersIntoRooms() {
+        game.valActionPoints();
+        game.setRoomsPlayers();
 
-        final List<Members> members = game.getGameData().getPlayer().getMembers();
-        final List<ShipRooms> rooms = game.getGameData().getShip().getRooms();
-
-        //int userIndex = 0;
-        
-        for (int userIndex = 0; userIndex < members.size(); userIndex++) {
-
-            int randomRoomNumber = new Random().nextInt(12) + 1;
-
-            for (ShipRooms room : rooms) {
-                if (room.getRoomNumber() == randomRoomNumber) {
-                    room.setUser(members.get(userIndex));
-                    
-                    //userIndex= userIndex+1;
-                    //members.remove(0);
-                }
-            }
+        //this.game.setState(new Turn(game.getGameData()));
+        for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+            System.out.println("Quartos : " + game.getGameData().getShip().getRooms().get(i).getUser());
         }
 
-        this.game.setState(new Turn(game.getGameData()));
-
-        System.out.println("Quartos: " + rooms);
-        Scanner sc = new Scanner(System.in);
-        sc.next();
     }
 
     private void advanceTurn() {
-        game.getGameData().advanceTurn();
+
         final String journeyStep = game.getGameData().getJourneyStep();
         final List<ShipRooms> rooms = game.getGameData().getShip().getRooms();
 
@@ -221,34 +239,30 @@ public class TextUI {
 
             if (journeyStep.equals("R")) {
                 System.out.println("Spend expiration points");
+                game.journeyTracker(journeyStep.length());
             } else if (journeyStep.equals("S")) {
                 System.out.println("Start");
+                game.getGameData().advanceTurn();
             } else {
                 System.out.println("End game");
 
             }
         } else if (journeyStep.length() == 2) {
-            assignAliens(journeyStep, rooms);
-            crewPhase();
-
+            game.journeyTracker(journeyStep.length());
         } else {
             // assign aliens and put all aliens back to bowl in the end of turn
-            assignAliens(journeyStep, rooms);
-
+            game.journeyTracker(journeyStep.length()); // Ver se o proximo turn e REST e apager todos os alliens
             //fase de batalha
-            for (ShipRooms room : rooms) {
+            /* for (ShipRooms room : rooms) {
                 room.deleteAllAliens();
             }
 
-            System.out.println("outro turno");
+            System.out.println("outro turno");*/
         }
 
-        System.out.println("Aliens: " + rooms);
-        Scanner sc = new Scanner(System.in);
-        sc.next();
     }
 
-    private void assignAliens(final String journeyStep, final List<ShipRooms> rooms) throws NumberFormatException {
+    /*  private void assignAliens(final String journeyStep, final List<ShipRooms> rooms) throws NumberFormatException {
         // assign aliens
         int numberOfAliens = Integer.valueOf(journeyStep.split("A")[0]);
 
@@ -263,68 +277,117 @@ public class TextUI {
                 }
             }
         }
-    }
-
-    private void crewPhase() {
-        int actionPoints = 5;
+    }*/
+    private void uiAwaitCrewPhase() {
+        int aux;
 
         final List<Members> members = game.getGameData().getPlayer().getMembers();
         final List<ShipRooms> rooms = game.getGameData().getShip().getRooms();
+        while (game.getGameData().getActionPoints() != 0) {
+            //for (Members membro : members)
+            System.out.println(game.getGameData().getJourneyStep());
+            System.out.println();
+            System.out.println("\t You have " + game.getGameData().getActionPoints() + " action points: ");
+            System.out.println("\t0 - Move (1AP)");
+            System.out.println("\t1 - Attack (1AP)");
+            System.out.println("\t2 - Heal one health [Doctor only] (1 AP) ");
+            System.out.println("\t3 - Fix one Hull [Engineer Only] (1AP)");
+            System.out.println("\t4 - Setting Trap (1AP)");
+            System.out.println("\t5 - Seal Room (1AP)");
+            System.out.println("\t6 - do nothing");
+            System.out.print("\n\n\t\t> ");
 
-        //for (Members membro : members)
-        System.out.println();
-        System.out.println("\t You have " + actionPoints + " action points: ");
-        System.out.println("\t0 - Move (1AP)");
-        System.out.println("\t1 - Attack (1AP)");
-        System.out.println("\t2 - Heal one health [Doctor only] (1 AP) ");
-        System.out.println("\t3 - Fix one Hull [Engineer Only] (1AP)");
-        System.out.println("\t4 - Setting Trap (1AP)");
-        System.out.println("\t5 - Seal Room (1AP)");
-        System.out.println("\t6 - do nothing");
-        System.out.print("\n\n\t\t> ");
+            Scanner sc = new Scanner(System.in);
 
-        Scanner sc = new Scanner(System.in);
+            final int action = sc.nextInt();
 
-        final int action = sc.nextInt();
-
-        do {
-            switch (action) {
-                case 0: // move
-                    moveMember(members.get(0), rooms);
-                    break;
-                case 1:// attack
-                    game.getState().chooseMember(action);
-                    break;
-                case 2:// heal health
-                    game.getState().chooseMember(action);
-                    break;
-                case 3:// heal hull
-                    game.getState().chooseMember(action);
-                    break;
-                case 4:// setting trap
-                    game.getState().chooseMember(action);
-                    break;
-                case 5:// Seal room
-                    game.getState().chooseMember(action);
-                    break;
-                default:
-                    System.out.println("\t Opcao invalida!!\n");
-                    break;
-            }
-        } while (action < 0 && action > 12);
-
-    }
-    
-    private void moveMember(Members get, List<ShipRooms> rooms) {
-        for (ShipRooms room : rooms) {
-            if(room.getUser().contains(get)){
-                System.out.println("Room " + room.getName() + " has these neighbours: ");
-                System.out.println(room.getNeighbours());
-                
-                // pede ao utilizador para fornecer o numero da sala vizinha e atribui o membero em causa para la e remove da sala actual.
-                // decrementa action point
-       
+            do {
+                switch (action) {
+                    case 0: // move
+                        do {
+                            System.out.println("What member do you want to move?");
+                            for (int i = 0; i < members.size(); i++) {
+                                System.out.println("\t" + (i + 1) + " - " + members.get(i).getName());
+                            }
+                            System.out.print("\n\n\t\t> ");
+                            aux = sc.nextInt();
+                        } while (aux < 1 && aux > 2);
+                        moveMember(members.get(aux - 1), rooms);
+                        game.getGameData().decementActionPoints();
+                        break;
+                    case 1:// attack
+                        game.getState().chooseMember(action);
+                        break;
+                    case 2:// heal health
+                        game.getState().chooseMember(action);
+                        break;
+                    case 3:// heal hull
+                        game.getState().chooseMember(action);
+                        break;
+                    case 4:// setting trap
+                        game.getState().chooseMember(action);
+                        break;
+                    case 5:// Seal room
+                        game.getState().chooseMember(action);
+                        break;
+                    case 6:
+                        break;
+                    default:
+                        System.out.println("\t Opcao invalida!!\n");
+                        break;
+                }
+            } while (action < 0 && action > 6);
+            if (action == 6) {
+                game.dontDoNothing();
+                break;
             }
         }
+        game.dontDoNothing();
+    }
+
+    private void moveMember(Members get, List<ShipRooms> rooms) {
+        int option;
+        Scanner sc = new Scanner(System.in);
+        for (ShipRooms room : rooms) {
+            if (room.getUser().contains(get)) {
+                System.out.println("Room " + room.getName() + " has these neighbours: ");
+                for (int i = 0; i < room.getNeighbours().size(); i++) {
+                    System.out.println("\t" + (i+1) + " - " + room.getNeighbours().get(i).getName());
+                }
+                System.out.print("\n\n\t\t>");
+                option = sc.nextInt();
+                if(room.getName().equals("NavigationOfficer")){
+                    
+                }
+                room.removeUser(get);
+                room.getNeighbours().get(option-1).setUser(get);
+                
+                for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+                    System.out.println("Quartos : " + game.getGameData().getShip().getRooms().get(i).getUser());
+                }
+                break;
+            }
+        }
+    }
+
+    public void uiAwaitRestPhase() {
+
+    }
+
+    public void uiAwaitAlliensPlacement() {
+        final String journeyStep = game.getGameData().getJourneyStep();
+
+        int numberOfAliens = Integer.valueOf(journeyStep.split("A")[0]);
+        System.out.println("number of aliens: " + numberOfAliens);
+        game.assignAliens(numberOfAliens);
+
+        for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+            System.out.println("Alliens : " + game.getGameData().getShip().getRooms().get(i).getAliens());
+        }
+        //Ver se o proximo turno e REST!!!
+    }
+
+    private void uiAwaitAlienPhase() {
+        
     }
 }

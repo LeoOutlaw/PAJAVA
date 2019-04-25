@@ -17,13 +17,23 @@ public class Player {
     private int hp;
     private int hull;
     private int inspirationPoints;
+    private int actionPoints;
     private List<Members> members;
     
     public Player(Settings a){
         inspirationPoints = 0;
         hp = a.getHp();
         hull = a.getHull();
+        actionPoints = 5;
         members = new ArrayList<>();
+    }
+    
+    public int getActionPoints(){
+        return actionPoints;
+    }
+    
+    public void setActionPoints(int actionPoints){
+        this.actionPoints = actionPoints;
     }
        
     public void AddMember(Members member){

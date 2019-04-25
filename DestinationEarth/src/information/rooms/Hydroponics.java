@@ -11,6 +11,7 @@ public class Hydroponics extends ShipRooms{
     public Hydroponics(){
         name = "MessHall";
         roomNumber = 12;
+        //vizinhos.addAll(Arrays.asList(new Engineering(), new Astrometrics()));
     }
     
     public String getName(){
@@ -38,7 +39,8 @@ public class Hydroponics extends ShipRooms{
     
     @Override
     public List<ShipRooms> getNeighbours() {
-        return Arrays.asList(this.astrometrics, this.engineering);
+        //return this.vizinhos;
+        return Arrays.asList(this.engineering, this.astrometrics);
     }
     
 }

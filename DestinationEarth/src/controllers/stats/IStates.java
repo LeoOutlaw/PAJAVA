@@ -14,5 +14,9 @@ public interface IStates {
     IStates selectHull( int hull);
     IStates startGame();
     IStates chooseMember(int member);
-
+    IStates setPlayers();
+    IStates journeyTracker(int length);
+    IStates allienAssign(int n_alliens);
+    IStates passCrewPhase();
+    IStates setActionPoints();
 }
