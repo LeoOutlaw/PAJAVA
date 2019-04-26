@@ -6,6 +6,7 @@ import information.Members.Members;
 import information.alien.Alien;
 import information.rooms.ShipRooms;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -295,6 +296,10 @@ public class TextUI {
             System.out.println("\t4 - Setting Trap (1AP)");
             System.out.println("\t5 - Seal Room (1AP)");
             System.out.println("\t6 - do nothing");
+            //abandonar jogo
+            System.out.print("\n\n");
+            System.out.println("\t7 - Leave game");
+            
             System.out.print("\n\n\t\t> ");
 
             Scanner sc = new Scanner(System.in);
@@ -332,11 +337,14 @@ public class TextUI {
                         break;
                     case 6:
                         break;
+                    case 7:
+                        save();
+                        
                     default:
                         System.out.println("\t Opcao invalida!!\n");
                         break;
                 }
-            } while (action < 0 && action > 6);
+            } while (action < 0 && action > 7);
             if (action == 6) {
                 game.dontDoNothing();
                 break;
@@ -402,4 +410,38 @@ public class TextUI {
     private void uiAwaitAlienPhase() {
         
     }
+    
+    public void save(){
+        try{
+        File file = new File("save.txt");
+        
+        if(!file.exists()){
+            file.createNewFile();
+        }
+        
+        PrintWriter pw = new PrintWriter(file);
+        //escreve o estado
+        pw.println();
+        //escreve a composição dos quartos(alliens crew members traps...)
+        //Alliens
+        for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+            pw.println(game.getGameData().getShip().getRooms().get(i).getAliens());
+        }
+        pw.println();
+        //Guarda os inspiration points
+        pw.println();
+        
+        System.out.println("Guardado com sucesso!");
+            
+        
+        }catch(IOException e){
+            System.out.println("Erro ao guardar!");            
+        }
+    }
+    
+    public void load(){
+        
+    }
+    
+    
 }
