@@ -19,4 +19,10 @@ public interface IStates {
     IStates allienAssign(int n_alliens);
     IStates passCrewPhase();
     IStates setActionPoints();
+    IStates clearAlliens();
+    IStates endOfRestPhase();
+    IStates moveAliens();
+    IStates CombatPhase();
+    IStates winGame();
+    IStates endGame();
 }

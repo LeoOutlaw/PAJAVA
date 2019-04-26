@@ -6,16 +6,30 @@
 package controllers.stats;
 
 import controllers.GameData;
+import information.rooms.ShipRooms;
+import java.util.List;
 
 /**
  *
  * @author Leonardo
  */
-public class AwaitRestPhase extends IStatesAdapter{
-     
+public class AwaitRestPhase extends IStatesAdapter {
+
     public AwaitRestPhase(GameData game) {
         super(game);
     }
 
-     
+    public IStates clearAlliens() {
+        final List<ShipRooms> rooms = getGameData().getShip().getRooms();
+        
+        for (ShipRooms room : rooms) {
+            room.deleteAllAliens();
+        } 
+        return this;
+    }
+    
+    public IStates endOfRestPhase(){
+        return new Turn(getGameData());
+    }
+
 }

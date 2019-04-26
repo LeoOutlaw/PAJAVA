@@ -27,6 +27,7 @@ import java.util.List;
  */
 public class SpaceShip {
 
+    private int hull;
     private final Bridge bridge;
     private final ConferenceRoom conferenceRoom;
     private final MessHall messHall;
@@ -40,8 +41,8 @@ public class SpaceShip {
     private final SickBay sickBay;
     private final WeaponsBay weaponsBay;
 
-    public SpaceShip() {
-
+    public SpaceShip(Settings a) {
+        hull = a.getHull();
         bridge = new Bridge();
         conferenceRoom = new ConferenceRoom();
         astrometrics = new Astrometrics();
@@ -150,8 +151,6 @@ public class SpaceShip {
     public MessHall getMessHall() {
         return messHall;
     }
-
-    private int hull;
     /*
      Informaçao sobre a SpaceShip
      Temos de saber onde e que sao cada uma das salas 

@@ -57,4 +57,28 @@ public class Game {
     public void valActionPoints(){
         setState(getState().setActionPoints());
     }
+    
+    public void clearAliens(){
+        setState(getState().clearAlliens());
+    }
+    
+    public void endOfRestPhase(){
+        setState(getState().endOfRestPhase());
+    }
+    
+    public void moveAliensRandom(){
+        setState(getState().moveAliens());
+    }
+    
+    public void combatAliens(){
+        setState(getState().CombatPhase());
+    }
+    
+    public void winGame(){
+        setState(getState().winGame());
+    }
+    
+    public void endGame(){
+        setState(getState().endGame());
+    }
 }
