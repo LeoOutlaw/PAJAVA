@@ -30,4 +30,8 @@ public class Turn extends IStatesAdapter {
         }
 
     }
+    
+    public IStates winGame(){
+        return new FinalStage(getGameData());
+    }
 }

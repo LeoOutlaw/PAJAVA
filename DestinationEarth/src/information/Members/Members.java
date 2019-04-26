@@ -40,9 +40,4 @@ public abstract class Members {
         return "Members{" + "name=" + name + '}';
     }
     
-    public void move2Times(){
-        
-    }
-    
-    
 }

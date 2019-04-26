@@ -63,7 +63,36 @@ public class IStatesAdapter implements IStates {
         return this;
     }
     
+    @Override
     public IStates setActionPoints(){
         return this;
     }
+    
+    @Override
+     public IStates clearAlliens(){
+         return this;
+     }
+     
+    @Override
+     public IStates endOfRestPhase(){
+         return this;
+     }
+     
+    @Override
+     public IStates moveAliens(){
+         return this;
+     }
+     
+    @Override
+     public IStates winGame(){
+         return this;
+     }
+     
+     public IStates endGame(){
+         return this;
+     }
+     
+     public IStates CombatPhase(){
+         return this;
+     }
 }

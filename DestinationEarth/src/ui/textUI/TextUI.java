@@ -9,7 +9,6 @@ import information.rooms.ShipRooms;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -33,7 +32,6 @@ public class TextUI {
         while (!quit) {
 
             IStates state = game.getState();
-            System.out.println("state: " + state);
 
             if (state instanceof AwaitBeginning) {
                 uiAwaitBeginning();
@@ -51,6 +49,8 @@ public class TextUI {
                 uiAwaitCrewPhase();
             } else if (state instanceof AwaitAlienPhase) {
                 uiAwaitAlienPhase();
+            } else if (state instanceof FinalStage) {
+                uiFinalStage();
             }
         }
     }
@@ -230,12 +230,12 @@ public class TextUI {
     private void advanceTurn() {
 
         final String journeyStep = game.getGameData().getJourneyStep();
-        final List<ShipRooms> rooms = game.getGameData().getShip().getRooms();
+        System.out.println("HP: " + game.getGameData().getPlayer().getHp());
+        System.out.println("HULL: " + game.getGameData().getShip().getHull());
+        System.out.println("Turn: " + game.getGameData().getJourneyStep());
 
         if (journeyStep.length() == 1) {
             //rest, start or end
-
-            System.out.println("Step " + journeyStep);
 
             if (journeyStep.equals("R")) {
                 System.out.println("Spend expiration points");
@@ -245,7 +245,7 @@ public class TextUI {
                 game.getGameData().advanceTurn();
             } else {
                 System.out.println("End game");
-
+                game.winGame();
             }
         } else if (journeyStep.length() == 2) {
             game.journeyTracker(journeyStep.length());
@@ -253,11 +253,6 @@ public class TextUI {
             // assign aliens and put all aliens back to bowl in the end of turn
             game.journeyTracker(journeyStep.length()); // Ver se o proximo turn e REST e apager todos os alliens
             //fase de batalha
-            /* for (ShipRooms room : rooms) {
-                room.deleteAllAliens();
-            }
-
-            System.out.println("outro turno");*/
         }
 
     }
@@ -280,6 +275,7 @@ public class TextUI {
     }*/
     private void uiAwaitCrewPhase() {
         int aux;
+        boolean ex = false;
 
         final List<Members> members = game.getGameData().getPlayer().getMembers();
         final List<ShipRooms> rooms = game.getGameData().getShip().getRooms();
@@ -288,13 +284,14 @@ public class TextUI {
             System.out.println(game.getGameData().getJourneyStep());
             System.out.println();
             System.out.println("\t You have " + game.getGameData().getActionPoints() + " action points: ");
-            System.out.println("\t0 - Move (1AP)");
-            System.out.println("\t1 - Attack (1AP)");
-            System.out.println("\t2 - Heal one health [Doctor only] (1 AP) ");
-            System.out.println("\t3 - Fix one Hull [Engineer Only] (1AP)");
-            System.out.println("\t4 - Setting Trap (1AP)");
-            System.out.println("\t5 - Seal Room (1AP)");
-            System.out.println("\t6 - do nothing");
+            System.out.println("\t0 - Return");
+            System.out.println("\t1 - Move (1AP)");
+            System.out.println("\t2 - Attack (1AP)");
+            System.out.println("\t3 - Heal one health [Doctor only] (1AP) ");
+            System.out.println("\t4 - Fix one Hull [Engineer Only] (1AP)");
+            System.out.println("\t5 - Setting Organic Detonator Trap (1AP)");
+            System.out.println("\t6 - Setting Particle Disperser Trap (1AP)");
+            System.out.println("\t7 - Seal Room (1AP)");
             System.out.print("\n\n\t\t> ");
 
             Scanner sc = new Scanner(System.in);
@@ -303,7 +300,9 @@ public class TextUI {
 
             do {
                 switch (action) {
-                    case 0: // move
+                    case 0:
+                        break;
+                    case 1:
                         do {
                             System.out.println("What member do you want to move?");
                             for (int i = 0; i < members.size(); i++) {
@@ -315,29 +314,87 @@ public class TextUI {
                         moveMember(members.get(aux - 1), rooms);
                         game.getGameData().decementActionPoints();
                         break;
-                    case 1:// attack
-                        game.getState().chooseMember(action);
-                        break;
                     case 2:// heal health
                         game.getState().chooseMember(action);
                         break;
-                    case 3:// heal hull
-                        game.getState().chooseMember(action);
-                        break;
-                    case 4:// setting trap
-                        game.getState().chooseMember(action);
-                        break;
-                    case 5:// Seal room
-                        game.getState().chooseMember(action);
+                    case 3:
+                        for (int i = 0; i < game.getGameData().getPlayer().getMembers().size(); i++) {
+                            if (game.getGameData().getPlayer().getMembers().get(i).getName().equals("Doctor")) {
+                                game.getGameData().getPlayer().setHp(game.getGameData().getPlayer().getHp() + 1);
+                                System.out.println("O player tem mais um de HP!");
+                                ex = true;
+                                break;
+                            }
+                        }
+                        if (ex == true) {
+                            ex = false;
+                            break;
+                        } else {
+                            System.out.println("O player nao na sua crew o Doctor!");
+                            break;
+                        }
+                    case 4:
+                        for (int i = 0; i < game.getGameData().getPlayer().getMembers().size(); i++) {
+                            if (game.getGameData().getPlayer().getMembers().get(i).getName().equals("Engineer")) {
+                                game.getGameData().getShip().setHull(game.getGameData().getShip().getHull() + 1);
+                                System.out.println("O ship tem mais um de HULL!");
+                                ex = true;
+                                break;
+                            }
+                        }
+                        if (ex == true) {
+                            ex = false;
+                            break;
+                        } else {
+                            System.out.println("O player nao na sua crew o Enginner!");
+                            break;
+                        }
+                    case 5:
+                        if (game.getGameData().getOrganicDetonator() > 0) {
+                            do {
+                                System.out.println("Onde deseja por o Organic Detonator");
+                                for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+                                    if (!game.getGameData().getShip().getRooms().get(i).getUser().isEmpty()) {
+                                        System.out.println("\t" + (i + 1) + ": " + game.getGameData().getShip().getRooms().get(i).getName());
+                                    }
+                                }
+                                System.out.print("\n\n\t\t> ");
+                                aux = sc.nextInt();
+                            } while (aux < 1 && aux > 2);
+                            game.getGameData().decementActionPoints();
+                            game.getGameData().getShip().getRooms().get(aux - 1).setOrganicDetonator();
+                            game.getGameData().setOrganicDetonator(game.getGameData().getOrganicDetonator() - 1);
+                        } else {
+                            System.out.println("Nao tem mais Organic Detonator!");
+                        }
                         break;
                     case 6:
+                        if (game.getGameData().getParticleDisperser() > 0) {
+                            do {
+                                System.out.println("Onde deseja por o Particle Disperner?");
+                                for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+                                    if (!game.getGameData().getShip().getRooms().get(i).getUser().isEmpty()) {
+                                        System.out.println("\t" + (i + 1) + ": " + game.getGameData().getShip().getRooms().get(i).getName());
+                                    }
+                                }
+                                System.out.print("\n\n\t\t> ");
+                                aux = sc.nextInt();
+                            } while (aux < 1 && aux > 2);
+                            game.getGameData().decementActionPoints();
+                            game.getGameData().getShip().getRooms().get(aux - 1).setParticleDisperser();
+                            game.getGameData().setParticleDisperser(game.getGameData().getParticleDisperser() - 1);
+                        } else {
+                            System.out.println("Nao tem mais Particle Disperser!");
+                        }
+                        break;
+                    case 7:
                         break;
                     default:
                         System.out.println("\t Opcao invalida!!\n");
                         break;
                 }
             } while (action < 0 && action > 6);
-            if (action == 6) {
+            if (action == 0) {
                 game.dontDoNothing();
                 break;
             }
@@ -352,16 +409,16 @@ public class TextUI {
             if (room.getUser().contains(get)) {
                 System.out.println("Room " + room.getName() + " has these neighbours: ");
                 for (int i = 0; i < room.getNeighbours().size(); i++) {
-                    System.out.println("\t" + (i+1) + " - " + room.getNeighbours().get(i).getName());
+                    System.out.println("\t" + (i + 1) + " - " + room.getNeighbours().get(i).getName());
                 }
                 System.out.print("\n\n\t\t>");
                 option = sc.nextInt();
-                if(room.getName().equals("NavigationOfficer")){
-                    
+                if (room.getName().equals("NavigationOfficer")) {
+                    //fazer alguma coisa!!(nao me lembro)
                 }
                 room.removeUser(get);
-                room.getNeighbours().get(option-1).setUser(get);
-                
+                room.getNeighbours().get(option - 1).setUser(get);
+
                 for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
                     System.out.println("Quartos : " + game.getGameData().getShip().getRooms().get(i).getUser());
                 }
@@ -371,7 +428,79 @@ public class TextUI {
     }
 
     public void uiAwaitRestPhase() {
+        game.clearAliens();
+        int aux;
 
+        while (game.getGameData().getPlayer().getInspirationPoints() != 0) {
+            //for (Members membro : members)
+            System.out.println(game.getGameData().getJourneyStep());
+            System.out.println();
+            System.out.println("\t You have " + game.getGameData().getPlayer().getInspirationPoints() + " action points: ");
+            System.out.println("\t0 - Return");
+            System.out.println("\t1 - Add one to Healt (1 IP)");
+            System.out.println("\t2 - Repair one Hull (1 IP) ");
+            System.out.println("\t3 - Build one Organic Detonator (2 IP)");
+            System.out.println("\t4 - Add one to Movement (4 IP)");
+            System.out.println("\t5 - Build one Particle Desperser (5 IP)");
+            System.out.println("\t6 - Gain one Sealed Room Token (5 IP)");
+            System.out.println("\t7 - Gain one extra Attack Die (6 IP)");
+            System.out.println("\t6 - Add one to the result of an Attack Dice (6 IP)");
+            System.out.print("\n\n\t\t> ");
+
+            Scanner sc = new Scanner(System.in);
+
+            final int action = sc.nextInt();
+
+            do {
+                switch (action) {
+                    case 0:
+                        break;
+                    case 1:
+                        game.getGameData().getPlayer().setHp(game.getGameData().getPlayer().getHp() + 1);
+                        System.out.println("O player tem mais um de HP!");
+                        break;
+                    case 2:
+                        game.getGameData().getShip().setHull(game.getGameData().getShip().getHull() + 1);
+                        System.out.println("O ship tem mais um de HULL!");
+                        break;
+                    case 3:
+                        if (game.getGameData().getPlayer().getInspirationPoints() > 1) {
+                            game.getGameData().setOrganicDetonator(game.getGameData().getOrganicDetonator() + 1);
+                            System.out.println("Um Organic Detonator foi construido!");
+                        } else {
+                            System.out.println("Nao tem Inspiration Poins suficientes");
+                        }
+                        break;
+                    case 4:
+                        game.getState().chooseMember(action);
+                        break;
+                    case 5:
+                        if (game.getGameData().getPlayer().getInspirationPoints() > 4) {
+                            game.getGameData().setParticleDisperser(game.getGameData().getParticleDisperser() + 1);
+                            System.out.println("Um Particle Disperser foi construido!");
+                        } else {
+                            System.out.println("Nao tem Inspiration Poins suficientes");
+                        }
+                        break;
+                    case 6:
+                        if (game.getGameData().getPlayer().getInspirationPoints() > 4) {
+                            game.getGameData().setSealedRoom(game.getGameData().getSealedRoom() + 1);
+                            System.out.println("Um tocken Sealed Room foi criado!");
+                        } else {
+                            System.out.println("Nao tem Inspiration Poins suficientes");
+                        }
+                        break;
+                    case 7:
+                        break;
+                    case 8:
+                        break;
+                    default:
+                        System.out.println("\t Opcao invalida!!\n");
+                        break;
+                }
+            } while (action < 0 && action > 8);
+        }
+        game.endOfRestPhase();
     }
 
     public void uiAwaitAlliensPlacement() {
@@ -388,6 +517,12 @@ public class TextUI {
     }
 
     private void uiAwaitAlienPhase() {
-        
+        game.moveAliensRandom();
+        game.combatAliens();
+        System.out.println("TEM " + game.getGameData().getPlayer().getHp() + " HP e " + game.getGameData().getShip().getHull() + " hull");
+    }
+
+    private void uiFinalStage() {
+        game.endGame();
     }
 }
