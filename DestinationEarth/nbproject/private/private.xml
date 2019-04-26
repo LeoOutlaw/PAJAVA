@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/controllers/Game.java</file>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/controllers/stats/AwaitBeginning.java</file>
+            <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/ui/textUI/MenuTextUI.java</file>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/information/rooms/ShipRooms.java</file>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/information/rooms/SickBay.java</file>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/controllers/GameData.java</file>
@@ -12,7 +13,7 @@
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/information/alien/Alien.java</file>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/ui/textUI/TextUI.java</file>
             <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/destinationEarth/Main.java</file>
-            <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/controllers/GetInformation.java</file>
+            <file>file:/C:/Users/Tiago%20Alves/Documents/GitHub/PAJAVA/DestinationEarth/src/information/Dificulty.java</file>
         </group>
     </open-files>
 </project-private>
