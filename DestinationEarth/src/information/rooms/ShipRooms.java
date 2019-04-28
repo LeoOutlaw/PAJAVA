@@ -11,20 +11,23 @@ public abstract class ShipRooms {
     int roomNumber;
     String name;
     int[] neighbors;
+    boolean canBeSealed;
     private boolean sealed;
     private boolean hasOrganicDetonator;
     private boolean hasParticleDisperser;
 
     List<Alien> aliens;
     List<Members> users;
-    // List<ShipRooms>vizinhos;
 
     public abstract List<ShipRooms> getNeighbours();
 
     public ShipRooms() {
         aliens = new ArrayList<>();
         users = new ArrayList<>();
-        //vizinhos = new ArrayList();
+    }
+    
+    public boolean getCanBeSealed(){
+        return canBeSealed;
     }
 
     public void setUser(Members user) {
@@ -43,13 +46,6 @@ public abstract class ShipRooms {
         return neighbors;
     }
 
-    /*public Integer getListNeighbors(){
-     for (int i = 0; i < listNeighbors.get(listNeighbors.size() - 1); i++)
-          
-     return listNeighbors.get(i);
-      
-     }
-     */
     public int getRoomNumber() {
         return roomNumber;
     }
@@ -85,7 +81,11 @@ public abstract class ShipRooms {
     public void unsetParticleDisperser() {
         this.hasParticleDisperser = false;
     }
-
+    
+    public void setSealedRoom() {
+        this.sealed = true;
+    }
+    
     public boolean isSealed() {
         return sealed;
     }

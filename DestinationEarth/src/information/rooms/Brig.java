@@ -20,6 +20,7 @@ public class Brig extends ShipRooms{
     public Brig(){
         name = "Brig";
         roomNumber = 3;
+        canBeSealed = true;
     }
     
     public String getName(){

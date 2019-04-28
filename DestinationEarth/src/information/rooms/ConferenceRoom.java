@@ -18,6 +18,7 @@ public class ConferenceRoom extends ShipRooms {
     public ConferenceRoom() {
         name = "ConferenceRoom";
         roomNumber = 5;
+        canBeSealed = false;
     }
 
     public String getName() {

@@ -20,6 +20,7 @@ public class CrewQuarters extends ShipRooms{
     public CrewQuarters(){
         name = "CrewQuarters";
         roomNumber = 4;
+        canBeSealed = true;
     }
     
     public String getName(){

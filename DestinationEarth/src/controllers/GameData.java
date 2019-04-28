@@ -1,5 +1,6 @@
 package controllers;
 
+import information.Members.Members;
 import information.traps.*;
 import information.dices.Dice;
 import information.Player;
@@ -29,6 +30,7 @@ public class GameData {
 
     private List<String> journey;
     private int numAlliens;
+    private int addToResult;
 
     private int turn = 0;
     private int actionPoints;
@@ -44,14 +46,23 @@ public class GameData {
 
     public GameData() {
         msg = "";
+        addToResult = 0;
         sealedRoom = 6;
         organicDetonator = 4;
         particleDisperser = 2;
-        journey = Arrays.asList("S", "2A", "3A", "4A", "5A*", "R", "4A", "5A", "6A*", "R", "6A", "7A*", "R", "8A", "E");
+        journey = Arrays.asList("S", "2A", "R", "4A", "5A*", "R", "4A", "5A", "6A*", "R", "6A", "7A*", "R", "8A", "E");
         settings = new Settings();
         numAlliens = 15;
     }
 
+    public int getAddToResult(){
+        return addToResult;
+    }
+    
+    public void setAddToResult(int addToResult){
+        this.addToResult = addToResult;
+    }
+    
     public Player getPlayer() {
         return player;
     }
@@ -71,7 +82,7 @@ public class GameData {
     public void setShipOver(boolean shipOver) {
         this.shipOver = shipOver;
     }
-    
+
     public boolean isPlayerOver() {
         return playerOver;
     }
@@ -103,6 +114,10 @@ public class GameData {
 
     public void advanceTurn() {
         this.turn = turn + 1;
+    }
+
+    public int getTurn() {
+        return turn;
     }
 
     public String getJourneyStep() {
@@ -173,7 +188,9 @@ public class GameData {
         for (int i = 0; i < rooms.size(); i++) {
             if (!rooms.isEmpty()) {
                 for (int j = 0; j < rooms.get(i).getAliens().size(); j++) {
-                    newRoom = rooms.get(i).getAliens().get(j).moveRandomAlien(rooms.get(i));
+                    do {
+                        newRoom = rooms.get(i).getAliens().get(j).moveRandomAlien(rooms.get(i));
+                    } while (newRoom.isSealed());
                     newRoom.addAlien(rooms.get(i).getAliens().get(j));
                     seeIfOrganicDetonator(newRoom, rooms.get(i).getAliens().get(j));
                 }
@@ -187,6 +204,7 @@ public class GameData {
             room.removeAlien(alien);
             room.unsetOrganicDetonator();
             setOrganicDetonator(getOrganicDetonator() + 1);
+            getPlayer().setInspirationPoints(getPlayer().getInspirationPoints()+1);
         }
     }
 
@@ -196,25 +214,37 @@ public class GameData {
                 if (!getShip().getRooms().get(i).getUser().isEmpty()) {
                     for (int j = 0; j < getShip().getRooms().get(i).getAliens().size(); j++) {
                         getShip().getRooms().get(i).getAliens().get(j).attackAlienMember();
-                        if(getPlayer().getHp() < 1){
+                        if (getPlayer().getHp() < 1) {
                             setPlayerOver(true);
                             break;
                         }
                     }
-                }else {
+                } else {
                     for (int j = 0; j < getShip().getRooms().get(i).getAliens().size(); j++) {
                         getShip().getRooms().get(i).getAliens().get(j).attackAlienShip();
-                        if(getShip().getHull() < 1){
+                        if (getShip().getHull() < 1) {
                             setShipOver(true);
                             break;
                         }
                     }
                 }
             }
-            if(getPlayer().getHp() < 1 || getShip().getHull() < 1){
+            if (getPlayer().getHp() < 1 || getShip().getHull() < 1) {
                 setGameOver(true);
                 break;
             }
         }
+    }
+    
+    public void gainOneAttackDie(Members member){
+        if(member.getAttack()<3){
+            member.setAttack(member.getAttack()+1);
+        }else{
+            member.setAttack(3);
+        }
+    }
+    
+    public int AttackPlayer(){
+       return (int) (Math.random() * 6 + 1) + addToResult;
     }
 }

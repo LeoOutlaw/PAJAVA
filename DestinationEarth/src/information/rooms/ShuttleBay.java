@@ -19,7 +19,9 @@ public class ShuttleBay extends ShipRooms{
     
     public ShuttleBay(){
         name = "ShuttleBay";
-        roomNumber = 6;    }
+        roomNumber = 6;  
+        canBeSealed = false;
+    }
     
     public String getName(){
         return name;

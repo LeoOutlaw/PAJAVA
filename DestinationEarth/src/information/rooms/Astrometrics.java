@@ -23,6 +23,7 @@ public class Astrometrics extends ShipRooms{
     public Astrometrics(){
         name = "Astrometrics";
         roomNumber = 10;
+        canBeSealed = false;
     }
     
     public String getName(){

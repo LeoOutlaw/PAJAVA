@@ -5,6 +5,8 @@
  */
 package information.Members;
 
+import controllers.GameData;
+
 /**
  *
  * @author Tiago Alves

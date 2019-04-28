@@ -18,7 +18,8 @@ public class Engineering extends ShipRooms{
     
     public Engineering(){
         name = "Engineering";
-        roomNumber = 9;        
+        roomNumber = 9; 
+        canBeSealed = true;
     }
     
     public String getName(){

@@ -11,7 +11,7 @@ public class Hydroponics extends ShipRooms{
     public Hydroponics(){
         name = "MessHall";
         roomNumber = 12;
-        //vizinhos.addAll(Arrays.asList(new Engineering(), new Astrometrics()));
+        canBeSealed = true;
     }
     
     public String getName(){

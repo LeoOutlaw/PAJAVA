@@ -20,6 +20,7 @@ public class SickBay extends ShipRooms{
     public SickBay(){
         name = "SickBay";
         roomNumber = 2;
+        canBeSealed = false;
     }
     
     public String getName(){

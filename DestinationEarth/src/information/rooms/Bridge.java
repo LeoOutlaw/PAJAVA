@@ -19,6 +19,7 @@ public class Bridge extends ShipRooms{
     public Bridge(){
         name = "Bridge";
         roomNumber = 1;
+        canBeSealed = false;
     }
 
     public void setConferenceRoom(ConferenceRoom conferenceRoom) {

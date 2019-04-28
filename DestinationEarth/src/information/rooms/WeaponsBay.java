@@ -16,6 +16,7 @@ public class WeaponsBay extends ShipRooms {
     public WeaponsBay() {
         name = "WeaponsBay";
         roomNumber = 7;
+        canBeSealed = true;
     }
 
     public String getName() {

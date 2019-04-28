@@ -20,6 +20,7 @@ public class Holodeck extends ShipRooms{
     public Holodeck(){
         name = "Holodeck";
         roomNumber = 11;
+        canBeSealed = true;
     }
 
     public void setCrewQuarters(CrewQuarters crewQuarters) {

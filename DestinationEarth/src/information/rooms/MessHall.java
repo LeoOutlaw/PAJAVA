@@ -22,6 +22,7 @@ public class MessHall extends ShipRooms{
     public MessHall(){
         name = "MessHall";
         roomNumber = 8;
+        canBeSealed = false;
     }
     
     public String getName(){

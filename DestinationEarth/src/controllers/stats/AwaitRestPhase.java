@@ -29,6 +29,8 @@ public class AwaitRestPhase extends IStatesAdapter {
     }
     
     public IStates endOfRestPhase(){
+        getGameData().setTurnActionPoints();
+        getGameData().advanceTurn();
         return new Turn(getGameData());
     }
 

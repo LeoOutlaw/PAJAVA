@@ -28,12 +28,16 @@ public class AwaitAlliensPlacement extends IStatesAdapter {
 
             for (ShipRooms room : rooms) { // corre as salas todas. pode ser melhorado para saltar fora antes
                 if (room.getRoomNumber() == roomNumber) {
-                    room.addAlien(new Alien(getGameData()));
+                    if (room.isSealed()) {
+                        room.addAlien(new Alien(getGameData()));
+                        room.deleteAllAliens();
+                    } else {
+                        room.addAlien(new Alien(getGameData()));
+                    }
+
                 }
             }
         }
         return new AwaitCrewPhase(getGameData());
     }
-
-    
 }
