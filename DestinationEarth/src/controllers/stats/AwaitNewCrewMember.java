@@ -59,9 +59,10 @@ public class AwaitNewCrewMember extends IStatesAdapter {
                 break;
         }
         if(getGameData().getPlayer().getMembers().size() == 2){
-            for(int i = 0; i < getGameData().getPlayer().getMembers().size(); i++) {
-                System.out.println("membros : " + getGameData().getPlayer().getMembers().get(i).getName());
-            }
+                if(getGameData().getPlayer().getMembers().get(0).getName().equals(getGameData().getPlayer().getMembers().get(1).getName())){
+                    getGameData().getPlayer().getMembers().remove(1);
+                    return this;
+                }
             return new SetupMembers(getGameData());
         }
         return this;

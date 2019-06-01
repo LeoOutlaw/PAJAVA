@@ -15,14 +15,8 @@ public class AwaitBeginning extends IStatesAdapter {
         super(g);
     }
     
-    public IStates selectHP(int hp){
-        getGameData().getSettings().setHp(hp);
-        return this;
-    }
-    
-    public IStates selectHull(int hull){
-        getGameData().getSettings().setHull(hull);
-        return this;
+    public IStates changeSettings(){
+        return new AwaitSettings(getGameData());
     }
     
     @Override

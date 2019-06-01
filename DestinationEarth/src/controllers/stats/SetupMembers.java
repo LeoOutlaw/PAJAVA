@@ -21,7 +21,6 @@ public class SetupMembers extends IStatesAdapter {
     }
     
     public IStates setActionPoints(){
-        getGameData().setTurnActionPoints();
         return this;
     }
     

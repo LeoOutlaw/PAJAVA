@@ -5,6 +5,9 @@
  */
 package controllers.stats;
 
+import information.Members.Members;
+import information.rooms.ShipRooms;
+
 /**
  * Neste package faremos a maquina de estados toda
  * @author Leonardo
@@ -17,12 +20,15 @@ public interface IStates {
     IStates setPlayers();
     IStates journeyTracker(int length);
     IStates allienAssign(int n_alliens);
-    IStates passCrewPhase();
     IStates setActionPoints();
+    IStates chooseOption(int option, Members member);
     IStates clearAlliens();
-    IStates endOfRestPhase();
     IStates moveAliens();
     IStates CombatPhase();
-    IStates winGame();
+    IStates journeyEnded();
     IStates endGame();
+    IStates crewMemberDieded();
+    IStates changeSettings();
+    IStates voltarMenu();
+    IStates chooseAPOption(int option, ShipRooms room, Members member, int roomOption, int attack) ;
 }

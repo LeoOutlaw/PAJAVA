@@ -1,8 +1,10 @@
 package ui.textUI;
 
 import controllers.Game;
+import controllers.ObservableGame;
 
 import java.util.Scanner;
+import ui.gui.DestinationEarthView;
 
 /**
  *
@@ -19,7 +21,7 @@ public class MenuTextUI {
         System.out.println("\t 1. Novo Jogo");
         System.out.println("\t 2. Carregar Jogo");
         System.out.println("\t 3. Sair");
-        
+ 
         System.out.print("\n\n\t\t> ");
         
         do{
@@ -32,7 +34,8 @@ public class MenuTextUI {
                     break;
                 case 2:
                    // textUI = new TextUI(new Game());
-                   // textUI.loadGame();
+                    textUI.load();
+                    //Após ler como colocar logo no estado seguinte?
                     break;
                 case 3:
                     System.out.println("\t Sair\n");

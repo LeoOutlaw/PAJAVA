@@ -6,6 +6,8 @@
 package controllers.stats;
 
 import controllers.GameData;
+import information.Members.Members;
+import information.rooms.ShipRooms;
 
 /**
  *
@@ -30,6 +32,16 @@ public class IStatesAdapter implements IStates {
     
     @Override
     public IStates selectHull( int hull) {
+        return this;
+    }
+    
+    @Override
+    public IStates voltarMenu(){
+        return this;
+    }
+    
+    @Override
+    public IStates changeSettings() {
         return this;
     }
     
@@ -59,11 +71,6 @@ public class IStatesAdapter implements IStates {
     }
     
     @Override
-    public IStates passCrewPhase(){
-        return this;
-    }
-    
-    @Override
     public IStates setActionPoints(){
         return this;
     }
@@ -73,8 +80,7 @@ public class IStatesAdapter implements IStates {
          return this;
      }
      
-    @Override
-     public IStates endOfRestPhase(){
+     public IStates chooseOption(int option, Members member){
          return this;
      }
      
@@ -84,15 +90,23 @@ public class IStatesAdapter implements IStates {
      }
      
     @Override
-     public IStates winGame(){
+     public IStates journeyEnded(){
          return this;
      }
      
      public IStates endGame(){
          return this;
      }
-     
+    
      public IStates CombatPhase(){
+         return this;
+     }
+     
+     public IStates crewMemberDieded(){
+         return this;
+     }  
+     
+     public IStates chooseAPOption(int option, ShipRooms room, Members member, int roomOption, int attack){
          return this;
      }
 }

@@ -31,7 +31,7 @@ public class Turn extends IStatesAdapter {
 
     }
     
-    public IStates winGame(){
+    public IStates journeyEnded(){
         return new FinalStage(getGameData());
     }
 }

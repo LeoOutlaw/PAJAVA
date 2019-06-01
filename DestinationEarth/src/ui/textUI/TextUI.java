@@ -6,13 +6,14 @@ import information.Members.Members;
 import information.alien.Alien;
 import information.rooms.ShipRooms;
 
+import java.io.*;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Aqui tera todas as funcoes de interfase (consola) com o utilizador Em mais
+ * Aqui tera todas as funcoes de interface (consola) com o utilizador Em mais
  * nenhuma parte do programa se vai fazer prints Sempre que se quiser fazer um
  * print teremos de chamar uma funcao daqui Tudo o que e interacao com o
  * utilizador e aqui que se faz
@@ -35,6 +36,8 @@ public class TextUI {
 
             if (state instanceof AwaitBeginning) {
                 uiAwaitBeginning();
+            } else if (state instanceof AwaitSettings) {
+                choseSettings();
             } else if (state instanceof AwaitNewCrewMember) {
                 uiAwaitNewCrewMember();
             } else if (state instanceof SetupMembers) {
@@ -74,6 +77,7 @@ public class TextUI {
             }
             switch (option) {
                 case 0:
+                    game.voltarMenu();
                     break;
                 case 1:
                     System.out.println("\tDefinir HP(0-12)");
@@ -114,9 +118,9 @@ public class TextUI {
         do {
 
             System.out.println();
-            System.out.println("\t0 - Quit");
-            System.out.println("\t1 - Opções");
-            System.out.println("\t2 - Start");
+            System.out.println("\t1 - Start");
+            System.out.println("\t2 - Opções");
+            System.out.println("\t3 - Quit");
             System.out.print("\n\n\t\t> ");
             try {
                 option = sc.nextInt();
@@ -125,13 +129,13 @@ public class TextUI {
                 e.printStackTrace();
             }
             switch (option) {
-                case 0:
+                case 3:
                     quit = true;
                     break;
-                case 1:
-                    choseSettings();
-                    break;
                 case 2:
+                    game.changeSettings();
+                    break;
+                case 1:
                     System.out.println("Comecou o jogo!!! COM " + game.getGameData().getSettings().getHp() + " HP e " + game.getGameData().getSettings().getHull() + " hull");
                     game.startGame();
                     break;
@@ -241,7 +245,7 @@ public class TextUI {
                 game.getGameData().advanceTurn();
             } else {
                 System.out.println("End game");
-                game.winGame();
+                game.journeyEnded();
             }
         } else if (journeyStep.length() == 2) {
             game.journeyTracker(journeyStep.length());
@@ -250,196 +254,194 @@ public class TextUI {
             game.journeyTracker(journeyStep.length()); // Ver se o proximo turn e REST e apager todos os alliens
             //fase de batalha
         }
-
     }
 
     private void uiAwaitCrewPhase() {
         int aux;
+        int count;
         boolean ex = false;
 
         final List<Members> members = game.getGameData().getPlayer().getMembers();
         final List<ShipRooms> rooms = game.getGameData().getShip().getRooms();
-        while (game.getGameData().getActionPoints() != 0) {
-            for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
-                System.out.println(game.getGameData().getShip().getRooms().get(i).getName() + ": " + game.getGameData().getShip().getRooms().get(i).getAliens()
-                        + "-> " + game.getGameData().getShip().getRooms().get(i).getUser()
-                        + "----- Organic Detonator-> [" + game.getGameData().getShip().getRooms().get(i).isHasOrganicDetonator() + "] Particle Disperser-> [" + game.getGameData().getShip().getRooms().get(i).isHasParticleDisperser() + "] Sealed -> [" + game.getGameData().getShip().getRooms().get(i).isSealed() + "]");
-                System.out.println("-----------------------------------------------------------------------");
-            }
-            //for (Members membro : members)
-            System.out.println(game.getGameData().getJourneyStep());
-            System.out.println();
-            System.out.println("\t You have " + game.getGameData().getActionPoints() + " action points: ");
-            System.out.println("\t0 - Return");
-            System.out.println("\t1 - Move (1AP)");
-            System.out.println("\t2 - Attack (1AP)");// Fazer este!!!!!
-            System.out.println("\t3 - Heal one health [Doctor only] (1AP) ");
-            System.out.println("\t4 - Fix one Hull [Engineer Only] (1AP)");
-            System.out.println("\t5 - Setting Organic Detonator Trap (1AP)");
-            System.out.println("\t6 - Setting Particle Disperser Trap (1AP)");
-            System.out.println("\t7 - Seal Room (1AP)");
-            System.out.print("\n\n\t\t> ");
 
-            Scanner sc = new Scanner(System.in);
-
-            final int action = sc.nextInt();
-            int a;
-
-            do {
-                switch (action) {
-                    case 0:
-                        break;
-                    case 1:
-                        do {
-                            System.out.println("What member do you want to move?");
-                            for (int i = 0; i < members.size(); i++) {
-                                System.out.println("\t" + (i + 1) + " - " + members.get(i).getName());
-                            }
-                            System.out.print("\n\n\t\t> ");
-                            aux = sc.nextInt();
-                        } while (aux < 1 && aux > 2);
-                        for (int i = 0; i < members.get(aux - 1).getMovement(); i++) {
-                            moveMember(members.get(aux - 1), rooms);
-                        }
-                        game.getGameData().decementActionPoints();
-                        break;
-                    case 2:// heal health
-                        do {
-                            System.out.println("What member do you want to move?");
-                            for (int i = 0; i < members.size(); i++) {
-                                System.out.println("\t" + (i + 1) + " - " + members.get(i).getName());
-                            }
-                            System.out.print("\n\n\t\t> ");
-                            aux = sc.nextInt();
-                        } while (aux < 1 && aux > 2);
-
-                        for (int i = 0; i < rooms.size(); i++) {
-                            for (int j = 0; j < rooms.get(i).getUser().size(); j++) {
-                                if (rooms.get(i).getUser().get(j).getName().equals(members.get(aux - 1).getName()) && rooms.get(i).isAliens()) {
-                                    for (int x = 0; x < members.get(aux - 1).getAttack(); x++) {
-                                        if (!rooms.get(i).getAliens().isEmpty()) {
-                                            a = game.getGameData().AttackPlayer();
-                                            if (a > 4) {
-                                                rooms.get(i).getAliens().remove(rooms.get(i).getAliens().get(rooms.get(i).getAliens().size() - 1));
-                                                System.out.println("O resultado foi: " + a);
-                                                System.out.println("Um alien foi eliminado!");
-                                                game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() + 1);
-                                            } else {
-                                                System.out.println("O resultado foi: " + a);
-                                                System.out.println("Nenhum alien foi eliminado!");
-                                            }
-                                        } else if (rooms.get(i).getUser().get(j).getName().equals(members.get(aux - 1).getName()) && !rooms.get(i).isAliens()) {
-                                            System.out.println("Nao tem Aliens nesta sala!");
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        game.getGameData().decementActionPoints();
-                        break;
-                    case 3:
-                        for (int i = 0; i < members.size(); i++) {
-                            if (members.get(i).getName().equals("Doctor")) {
-                                game.getGameData().getPlayer().setHp(game.getGameData().getPlayer().getHp() + 1);
-                                System.out.println("O player tem mais um de HP!");
-                                ex = true;
-                                break;
-                            }
-                        }
-                        if (ex == true) {
-                            ex = false;
-                            break;
-                        } else {
-                            System.out.println("O player nao na sua crew o Doctor!");
-                            break;
-                        }
-                    case 4:
-                        for (int i = 0; i < members.size(); i++) {
-                            if (members.get(i).getName().equals("Engineer")) {
-                                game.getGameData().getShip().setHull(game.getGameData().getShip().getHull() + 1);
-                                System.out.println("O ship tem mais um de HULL!");
-                                ex = true;
-                                break;
-                            }
-                        }
-                        if (ex == true) {
-                            ex = false;
-                            break;
-                        } else {
-                            System.out.println("O player nao na sua crew o Enginner!");
-                            break;
-                        }
-                    case 5:
-                        if (game.getGameData().getOrganicDetonator() > 0) {
-                            do {
-                                System.out.println("Onde deseja por o Organic Detonator");
-                                for (int i = 0; i < rooms.size(); i++) {
-                                    if (!rooms.get(i).getUser().isEmpty()) {
-                                        System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
-                                    }
-                                }
-                                System.out.print("\n\n\t\t> ");
-                                aux = sc.nextInt();
-                            } while (aux < 1 && aux > 2);
-                            game.getGameData().decementActionPoints();
-                            rooms.get(aux - 1).setOrganicDetonator();
-                            game.getGameData().setOrganicDetonator(game.getGameData().getOrganicDetonator() - 1);
-                        } else {
-                            System.out.println("Nao tem mais Organic Detonator!");
-                        }
-                        break;
-                    case 6:
-                        if (game.getGameData().getParticleDisperser() > 0) {
-                            do {
-                                System.out.println("Onde deseja por o Particle Disperser?");
-                                for (int i = 0; i < rooms.size(); i++) {
-                                    if (!rooms.get(i).getUser().isEmpty()) {
-                                        System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
-                                    }
-                                }
-                                System.out.print("\n\n\t\t> ");
-                                aux = sc.nextInt();
-                            } while (aux < 1 && aux > 2);
-                            game.getGameData().decementActionPoints();
-                            rooms.get(aux - 1).setParticleDisperser();
-                            game.getGameData().setParticleDisperser(game.getGameData().getParticleDisperser() - 1);
-                            System.out.println("A sala " + rooms.get(aux - 1).getName() + " tem uma Particle Disperser!");
-                        } else {
-                            System.out.println("Nao tem mais Particle Disperser!");
-                        }
-                        break;
-                    case 7:
-                        if (game.getGameData().getSealedRoom() > 0) {
-                            do {
-                                System.out.println("Onde deseja fechar a Sala?");
-                                for (int i = 0; i < rooms.size(); i++) {
-                                    if (rooms.get(i).getCanBeSealed()) {
-                                        System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
-                                    }
-                                }
-                                System.out.print("\n\n\t\t> ");
-                                aux = sc.nextInt();
-                            } while (aux < 1 && aux > 6);
-                            if (!rooms.get(aux - 1).isSealed()) {
-                                game.getGameData().decementActionPoints();
-                                rooms.get(aux - 1).setSealedRoom();
-                                game.getGameData().setParticleDisperser(game.getGameData().getSealedRoom() - 1);
-                                System.out.println("A sala " + rooms.get(aux - 1).getName() + " foi selada!");
-                            } else {
-                                System.out.println("A sala ja se encontra selada!");
-                            }
-                        }
-                        break;
-                    default:
-                        System.out.println("\t Opcao invalida!!\n");
-                        break;
-                }
-            } while (action < 0 && action > 6);
-            if (action == 0) {
-                break;
-            }
+        System.out.println("ActionPoints -> " + game.getGameData().getActionPoints());
+        for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+            System.out.println(game.getGameData().getShip().getRooms().get(i).getName() + ": " + game.getGameData().getShip().getRooms().get(i).getAliens()
+                    + "-> " + game.getGameData().getShip().getRooms().get(i).getUser()
+                    + "----- Organic Detonator-> [" + game.getGameData().getShip().getRooms().get(i).isHasOrganicDetonator() + "] Particle Disperser-> [" + game.getGameData().getShip().getRooms().get(i).isHasParticleDisperser() + "] Sealed -> [" + game.getGameData().getShip().getRooms().get(i).isSealed() + "]");
+            System.out.println("-----------------------------------------------------------------------");
         }
-        game.dontDoNothing();
+        //for (Members membro : members)          
+
+        System.out.println("\t0 - Return");
+        System.out.println("\t1 - Move (1AP)");
+        System.out.println("\t2 - Attack (1AP)");// Fazer este!!!!!
+        System.out.println("\t3 - Heal one health [Doctor only] (1AP) ");
+        System.out.println("\t4 - Fix one Hull [Engineer Only] (1AP)");
+        System.out.println("\t5 - Setting Organic Detonator Trap (1AP)");
+        System.out.println("\t6 - Setting Particle Disperser Trap (1AP)");
+        System.out.println("\t7 - Seal Room (1AP)");
+        System.out.println("\t8 - Detonate Particle Disperser Trap (1AP)");
+        System.out.print("\n\n\t\t> ");
+
+        Scanner sc = new Scanner(System.in);
+
+        final int action = sc.nextInt();
+        int a;
+
+        do {
+            switch (action) {
+                case 0:
+                    game.chooseApOption(action, null, null, 0, 0);
+                    break;
+                case 1:
+                    do {
+                        System.out.println("What member do you want to move?");
+                        for (int i = 0; i < members.size(); i++) {
+                            System.out.println("\t" + (i + 1) + " - " + members.get(i).getName());
+                        }
+                        System.out.print("\n\n\t\t> ");
+                        aux = sc.nextInt();
+                    } while (aux < 1 && aux > 2);
+                    for (int i = 0; i < members.get(aux - 1).getMovement(); i++) {
+                        moveMember(members.get(aux - 1), rooms);
+                    }
+                    break;
+                case 2:// heal health
+                    do {
+                        System.out.println("What member do you want to attack?");
+                        for (int i = 0; i < members.size(); i++) {
+                            System.out.println("\t" + (i + 1) + " - " + members.get(i).getName());
+                        }
+                        System.out.print("\n\n\t\t> ");
+                        aux = sc.nextInt();
+                    } while (aux < 1 && aux > 2);
+                    a = game.getGameData().attackPlayer();
+                    game.chooseApOption(action,null, null, aux, a);
+                    break;
+                case 3:
+                    for (int i = 0; i < members.size(); i++) {
+                        if (members.get(i).getName().equals("Doctor")) {
+                            game.chooseApOption(action,null, null, 0 , 0);
+                            System.out.println("O player tem mais um de HP!");
+                            ex = true;
+                            break;
+                        }
+                    }
+                    if (ex == true) {
+                        ex = false;
+                        break;
+                    } else {
+                        System.out.println("O player nao na sua crew o Doctor!");
+                        break;
+                    }
+                case 4:
+                    for (int i = 0; i < members.size(); i++) {
+                        if (members.get(i).getName().equals("Engineer")) {
+                            game.chooseApOption(action,null, null, 0 , 0);
+                            System.out.println("O ship tem mais um de HULL!");
+                            ex = true;
+                            break;
+                        }
+                    }
+                    if (ex == true) {
+                        ex = false;
+                        break;
+                    } else {
+                        System.out.println("O player nao na sua crew o Enginner!");
+                        break;
+                    }
+                case 5:
+                    if (game.getGameData().getOrganicDetonator() > 0) {
+                        do {
+                            System.out.println("Onde deseja por o Organic Detonator");
+                            for (int i = 0; i < rooms.size(); i++) {
+                                if (!rooms.get(i).getUser().isEmpty()) {
+                                    System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
+                                }
+                            }
+                            System.out.print("\n\n\t\t> ");
+                            aux = sc.nextInt();
+                        } while (aux < 1 && aux > 2);
+                        game.chooseApOption(action, rooms.get(aux - 1), null, 0, 0);
+                    } else {
+                        System.out.println("Nao tem mais Organic Detonator!");
+                    }
+                    break;
+                case 6:
+                    if (game.getGameData().getParticleDisperser() > 0) {
+                        do {
+                            System.out.println("Onde deseja por o Particle Disperser?");
+                            for (int i = 0; i < rooms.size(); i++) {
+                                if (!rooms.get(i).getUser().isEmpty()) {
+                                    System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
+                                }
+                            }
+                            System.out.print("\n\n\t\t> ");
+                            aux = sc.nextInt();
+                        } while (aux < 1 && aux > 2);
+                        game.chooseApOption(action, rooms.get(aux - 1), null, 0, 0);
+                        System.out.println("A sala " + rooms.get(aux - 1).getName() + " tem uma Particle Disperser!");
+                    } else {
+                        System.out.println("Nao tem mais Particle Disperser!");
+                    }
+                    break;
+                case 7:
+                    if (game.getGameData().getSealedRoom() > 0) {
+                        do {
+                            System.out.println("Onde deseja fechar a Sala?");
+                            for (int i = 0; i < rooms.size(); i++) {
+                                if (rooms.get(i).getCanBeSealed()) {
+                                    System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
+                                }
+                            }
+                            System.out.print("\n\n\t\t> ");
+                            aux = sc.nextInt();
+                        } while (aux < 1 && aux > 6);
+                        game.chooseApOption(action, rooms.get(aux - 1), null, 0, 0);
+                        if (rooms.get(aux - 1).isSealed()) {
+                            System.out.println("A sala " + rooms.get(aux - 1).getName() + " foi selada!");
+                        } else {
+                            System.out.println("A sala ja se encontra selada!");
+                        }
+                    }
+                    break;
+                case 8:
+                    count = 0;
+                    for (int i = 0; i < rooms.size(); i++) {
+                        if (rooms.get(i).isHasParticleDisperser()) {
+                            count++;
+                        }
+                    }
+                    if (count > 0) {
+                        do {
+                            System.out.println("Qual trap deseja detonar?");
+                            for (int i = 0; i < rooms.size(); i++) {
+                                if (rooms.get(i).isHasParticleDisperser()) {
+                                    System.out.println("\t" + (i + 1) + ": " + rooms.get(i).getName());
+                                }
+                            }
+                            System.out.print("\n\n\t\t> ");
+                            aux = sc.nextInt();
+                        } while (aux < 1 && aux > count);
+                        System.out.println("Pretende cancelar a detonacao?(Carregue 1)");
+                        if (sc.nextInt() == 1) {
+                            System.out.println("Detonamento cancelado!");
+                            break;
+                        }
+                        game.chooseApOption(action, rooms.get(aux - 1), null, 0, 0);
+                        if (rooms.get(aux - 1).isMembers()) {
+                            System.out.println("Um membro morreu na detonacao!");
+                        }
+                    } else {
+                        System.out.println("Nao existem particle dispersers colocadas!");
+                    }
+                    break;
+                default:
+                    System.out.println("\t Opcao invalida!!\n");
+                    break;
+            }
+        } while (action < 0 && action > 7);
     }
 
     private void moveMember(Members get, List<ShipRooms> rooms) {
@@ -453,10 +455,11 @@ public class TextUI {
                 }
                 System.out.print("\n\n\t\t>");
                 option = sc.nextInt();
-                room.removeUser(get);
-                room.getNeighbours().get(option - 1).setUser(get);
+                game.chooseApOption(1,room, get, option, 0);
                 break;
+
             }
+
         }
     }
 
@@ -464,101 +467,64 @@ public class TextUI {
         game.clearAliens();
         int aux;
 
-        while (game.getGameData().getPlayer().getInspirationPoints() != 0) {
-            for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
-                System.out.println(game.getGameData().getShip().getRooms().get(i).getName() + ": " + game.getGameData().getShip().getRooms().get(i).getAliens()
-                        + "-> " + game.getGameData().getShip().getRooms().get(i).getUser()
-                        + "----- Organic Detonator-> [" + game.getGameData().getShip().getRooms().get(i).isHasOrganicDetonator() + "] Particle Disperser-> [" + game.getGameData().getShip().getRooms().get(i).isHasParticleDisperser() + "] Sealed -> [" + game.getGameData().getShip().getRooms().get(i).isSealed() + "]");
-                System.out.println("-----------------------------------------------------------------------");
-            }
-            //for (Members membro : members)
-            System.out.println(game.getGameData().getJourneyStep());
-            System.out.println();
-            System.out.println("\t You have " + game.getGameData().getPlayer().getInspirationPoints() + "Ispiration points: ");
-            System.out.println("\t0 - Return");
-            System.out.println("\t1 - Add one to Healt (1 IP)");
-            System.out.println("\t2 - Repair one Hull (1 IP) ");
-            System.out.println("\t3 - Build one Organic Detonator (2 IP)");
-            System.out.println("\t4 - Add one to Movement (4 IP)");
-            System.out.println("\t5 - Build one Particle Desperser (5 IP)");
-            System.out.println("\t6 - Gain one Sealed Room Token (5 IP)");
-            System.out.println("\t7 - Gain one extra Attack Die (6 IP)");
-            System.out.println("\t8 - Add one to the result of an Attack Dice (6 IP)");
-            System.out.print("\n\n\t\t> ");
+        for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+            System.out.println(game.getGameData().getShip().getRooms().get(i).getName() + ": " + game.getGameData().getShip().getRooms().get(i).getAliens()
+                    + "-> " + game.getGameData().getShip().getRooms().get(i).getUser()
+                    + "----- Organic Detonator-> [" + game.getGameData().getShip().getRooms().get(i).isHasOrganicDetonator() + "] Particle Disperser-> [" + game.getGameData().getShip().getRooms().get(i).isHasParticleDisperser() + "] Sealed -> [" + game.getGameData().getShip().getRooms().get(i).isSealed() + "]");
+            System.out.println("-----------------------------------------------------------------------");
+        }
+        //for (Members membro : members)
+        System.out.println(game.getGameData().getJourneyStep());
+        System.out.println();
+        System.out.println("\t You have " + game.getGameData().getPlayer().getInspirationPoints() + "Ispiration points: ");
+        System.out.println("\t0 - Return");
+        System.out.println("\t1 - Add one to Healt (1 IP)");
+        System.out.println("\t2 - Repair one Hull (1 IP) ");
+        System.out.println("\t3 - Build one Organic Detonator (2 IP)");
+        System.out.println("\t4 - Add one to Movement (4 IP)");
+        System.out.println("\t5 - Build one Particle Desperser (5 IP)");
+        System.out.println("\t6 - Gain one Sealed Room Token (5 IP)");
+        System.out.println("\t7 - Gain one extra Attack Die (6 IP)");
+        System.out.println("\t8 - Add one to the result of an Attack Dice (6 IP)");
+        System.out.print("\n\n\t\t> ");
 
-            Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-            final int action = sc.nextInt();
+        final int action = sc.nextInt();
 
-            do {
-                switch (action) {
-                    case 0:
-                        break;
-                    case 1:
-                        if (game.getGameData().getPlayer().getHp() < 12) {
-                            game.getGameData().getPlayer().setHp(game.getGameData().getPlayer().getHp() + 1);
-                            System.out.println("O player tem mais um de HP!");
-                            game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 1);
-                        } else {
-                            System.out.println("O player tem HP ao maximo!");
-                        }
-                        break;
-                    case 2:
-                        if (game.getGameData().getShip().getHull() < 12) {
-                            game.getGameData().getShip().setHull(game.getGameData().getShip().getHull() + 1);
-                            System.out.println("O ship tem mais um de HULL!");
-                            game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 1);
-                        } else {
-                            System.out.println("O ship tem HULL ao maximo!");
-                        }
-                        break;
-                    case 3:
-                        if (game.getGameData().getPlayer().getInspirationPoints() > 1) {
-                            game.getGameData().setOrganicDetonator(game.getGameData().getOrganicDetonator() + 1);
-                            System.out.println("Um Organic Detonator foi construido!");
-                            game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 2);
-                        } else {
-                            System.out.println("Nao tem Inspiration Poins suficientes");
-                        }
-                        break;
-                    case 4:
-                        if (game.getGameData().getPlayer().getInspirationPoints() > 3) {
-                            do {
-                                for (int i = 0; i < game.getGameData().getPlayer().getMembers().size(); i++) {
-                                    System.out.println("\t" + (i + 1) + " - " + game.getGameData().getPlayer().getMembers().get(i).getName());
-                                }
-                                System.out.print("\n\n\t\t> ");
-                                aux = sc.nextInt();
-                            } while (aux < 1 && aux > 2);
-                            if (game.getGameData().getPlayer().getMembers().get(aux - 1).getMovement() < 3) {
-                                game.getGameData().getPlayer().getMembers().get(aux - 1).setMovement(game.getGameData().getPlayer().getMembers().get(aux - 1).getMovement() + 1);
-                                game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 4);
-                            } else {
-                                System.out.println("Movimento ja esta no maximo!");
-                            }
-                        } else {
-                            System.out.println("Nao tem Inspiration Poins suficientes");
-                        }
-                        break;
-                    case 5:
-                        if (game.getGameData().getPlayer().getInspirationPoints() > 4) {
-                            game.getGameData().setParticleDisperser(game.getGameData().getParticleDisperser() + 1);
-                            System.out.println("Um Particle Disperser foi construido!");
-                            game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 5);
-                        } else {
-                            System.out.println("Nao tem Inspiration Poins suficientes");
-                        }
-                        break;
-                    case 6:
-                        if (game.getGameData().getPlayer().getInspirationPoints() > 4) {
-                            game.getGameData().setSealedRoom(game.getGameData().getSealedRoom() + 1);
-                            System.out.println("Um tocken Sealed Room foi criado!");
-                            game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 5);
-                        } else {
-                            System.out.println("Nao tem Inspiration Poins suficientes");
-                        }
-                        break;
-                    case 7:
+        do {
+            switch (action) {
+                case 0:
+                    break;
+                case 1:
+                    if (game.getGameData().getPlayer().getHp() < 12) {
+                        game.chooseOption(action, null);
+                        System.out.println("O player tem mais um de HP!");
+                        game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 1);
+                    } else {
+                        System.out.println("O player tem HP ao maximo!");
+                    }
+                    break;
+                case 2:
+                    if (game.getGameData().getShip().getHull() < 12) {
+                        game.chooseOption(action, null);
+                        System.out.println("O ship tem mais um de HULL!");
+                        game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 1);
+                    } else {
+                        System.out.println("O ship tem HULL ao maximo!");
+                    }
+                    break;
+                case 3:
+                    if (game.getGameData().getPlayer().getInspirationPoints() > 1) {
+                        game.chooseOption(action, null);
+                        System.out.println("Um Organic Detonator foi construido!");
+                        game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 2);
+                    } else {
+                        System.out.println("Nao tem Inspiration Poins suficientes");
+                    }
+                    break;
+                case 4:
+                    if (game.getGameData().getPlayer().getInspirationPoints() > 3) {
                         do {
                             for (int i = 0; i < game.getGameData().getPlayer().getMembers().size(); i++) {
                                 System.out.println("\t" + (i + 1) + " - " + game.getGameData().getPlayer().getMembers().get(i).getName());
@@ -566,26 +532,57 @@ public class TextUI {
                             System.out.print("\n\n\t\t> ");
                             aux = sc.nextInt();
                         } while (aux < 1 && aux > 2);
-                        if (game.getGameData().getPlayer().getMembers().get(aux - 1).getAttack() < 3) {
-                            game.getGameData().getPlayer().getMembers().get(aux - 1).setAttack(game.getGameData().getPlayer().getMembers().get(aux - 1).getAttack() + 1);
-                            game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 4);
+                        game.chooseOption(action, game.getGameData().getPlayer().getMembers().get(aux - 1));
+                        if (game.getGameData().getPlayer().getMembers().get(aux - 1).getMovement() < 3) {
+                      
                         } else {
-                            System.out.println("Attack ja esta no maximo!");
+                            System.out.println("Movimento ja esta no maximo!");
                         }
-                        break;
-                    case 8:
-                        game.getGameData().setAddToResult(game.getGameData().getAddToResult() + 1);
-                        break;
-                    default:
-                        System.out.println("\t Opcao invalida!!\n");
-                        break;
-                }
-            } while (action < 0 && action > 8);
-            if (action == 0) {
-                break;
+                    } else {
+                        System.out.println("Nao tem Inspiration Poins suficientes");
+                    }
+                    break;
+                case 5:
+                    if (game.getGameData().getPlayer().getInspirationPoints() > 4) {
+                        game.chooseOption(action, null);
+                        System.out.println("Um Particle Disperser foi construido!");
+                        game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 5);
+                    } else {
+                        System.out.println("Nao tem Inspiration Poins suficientes");
+                    }
+                    break;
+                case 6:
+                    if (game.getGameData().getPlayer().getInspirationPoints() > 4) {
+                        game.chooseOption(action, null);
+                        System.out.println("Um tocken Sealed Room foi criado!");
+                        game.getGameData().getPlayer().setInspirationPoints(game.getGameData().getPlayer().getInspirationPoints() - 5);
+                    } else {
+                        System.out.println("Nao tem Inspiration Poins suficientes");
+                    }
+                    break;
+                case 7:
+                    do {
+                        for (int i = 0; i < game.getGameData().getPlayer().getMembers().size(); i++) {
+                            System.out.println("\t" + (i + 1) + " - " + game.getGameData().getPlayer().getMembers().get(i).getName());
+                        }
+                        System.out.print("\n\n\t\t> ");
+                        aux = sc.nextInt();
+                    } while (aux < 1 && aux > 2);
+                    game.chooseOption(action, game.getGameData().getPlayer().getMembers().get(aux - 1));
+                    if (game.getGameData().getPlayer().getMembers().get(aux - 1).getAttack() < 3) {
+                        
+                    } else {
+                        System.out.println("Attack ja esta no maximo!");
+                    }
+                    break;
+                case 8:
+                    game.chooseOption(action, null);
+                    break;
+                default:
+                    System.out.println("\t Opcao invalida!!\n");
+                    break;
             }
-        }
-        game.endOfRestPhase();
+        } while (action < 0 && action > 8);
     }
 
     public void uiAwaitAlliensPlacement() {
@@ -606,4 +603,36 @@ public class TextUI {
         game.endGame();
         System.out.println(game.getGameData().getMsg());
     }
+
+    public void save() {
+        try {
+            File file = new File("save.txt");
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            PrintWriter pw = new PrintWriter(file);
+            //escreve o estado
+            pw.println();
+            //escreve a composição dos quartos(alliens crew members traps...)
+            //Alliens
+            for (int i = 0; i < game.getGameData().getShip().getRooms().size(); i++) {
+                pw.println(game.getGameData().getShip().getRooms().get(i).getAliens());
+            }
+            pw.println();
+            //Guarda os inspiration points
+            pw.println();
+
+            System.out.println("Guardado com sucesso!");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao guardar!");
+        }
+    }
+
+    public void load() {
+
+    }
+
 }

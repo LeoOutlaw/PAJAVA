@@ -28,6 +28,7 @@ public class GameData {
     private SpaceShip ship;
     private Settings settings;
 
+    public List<Members> member;
     private List<String> journey;
     private int numAlliens;
     private int addToResult;
@@ -41,8 +42,6 @@ public class GameData {
     private String msg;
 
     private boolean gameOver;
-    private boolean shipOver;
-    private boolean playerOver;
 
     public GameData() {
         msg = "";
@@ -50,19 +49,28 @@ public class GameData {
         sealedRoom = 6;
         organicDetonator = 4;
         particleDisperser = 2;
-        journey = Arrays.asList("S", "2A", "R", "4A", "5A*", "R", "4A", "5A", "6A*", "R", "6A", "7A*", "R", "8A", "E");
+        journey = Arrays.asList("S", "2A", "3A", "4A", "5A*", "R", "4A", "5A", "6A*", "R", "6A", "7A*", "R", "8A", "E");
         settings = new Settings();
         numAlliens = 15;
     }
+    
+    public Members getCarta(int area){ //Retorna o Objecto carta da area actual
+        return member.get(area);
+    }
+    
+    public String getStringCarta(int area)
+    {
+        return getCarta(area).getName();
+    }
 
-    public int getAddToResult(){
+    public int getAddToResult() {
         return addToResult;
     }
-    
-    public void setAddToResult(int addToResult){
+
+    public void setAddToResult(int addToResult) {
         this.addToResult = addToResult;
     }
-    
+
     public Player getPlayer() {
         return player;
     }
@@ -73,22 +81,6 @@ public class GameData {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
-    }
-
-    public boolean isShipOver() {
-        return shipOver;
-    }
-
-    public void setShipOver(boolean shipOver) {
-        this.shipOver = shipOver;
-    }
-
-    public boolean isPlayerOver() {
-        return playerOver;
-    }
-
-    public void setPlayerOver(boolean playerOver) {
-        this.playerOver = playerOver;
     }
 
     public Settings getSettings() {
@@ -176,75 +168,29 @@ public class GameData {
         this.sealedRoom = sealedRoom;
     }
 
-    public void moveAliens() {
-        List<ShipRooms> rooms;
-        rooms = new ArrayList<>();
-        ShipRooms newRoom;
-        for (int i = 0; i < getShip().getRooms().size(); i++) {
-            if (!getShip().getRooms().get(i).getAliens().isEmpty()) {
-                rooms.add(getShip().getRooms().get(i));
-            }
-        }
-        for (int i = 0; i < rooms.size(); i++) {
-            if (!rooms.isEmpty()) {
-                for (int j = 0; j < rooms.get(i).getAliens().size(); j++) {
-                    do {
-                        newRoom = rooms.get(i).getAliens().get(j).moveRandomAlien(rooms.get(i));
-                    } while (newRoom.isSealed());
-                    newRoom.addAlien(rooms.get(i).getAliens().get(j));
-                    seeIfOrganicDetonator(newRoom, rooms.get(i).getAliens().get(j));
-                }
-                rooms.get(i).deleteAllAliens();
-            }
-        }
-    }
-
     public void seeIfOrganicDetonator(ShipRooms room, Alien alien) {
         if (room.isHasOrganicDetonator()) {
             room.removeAlien(alien);
             room.unsetOrganicDetonator();
             setOrganicDetonator(getOrganicDetonator() + 1);
-            getPlayer().setInspirationPoints(getPlayer().getInspirationPoints()+1);
+            getPlayer().setInspirationPoints(getPlayer().getInspirationPoints() + 1);
         }
     }
 
-    public void CombatAlienPhase() {
-        for (int i = 0; i < getShip().getRooms().size(); i++) {
-            if (!getShip().getRooms().get(i).getAliens().isEmpty()) {
-                if (!getShip().getRooms().get(i).getUser().isEmpty()) {
-                    for (int j = 0; j < getShip().getRooms().get(i).getAliens().size(); j++) {
-                        getShip().getRooms().get(i).getAliens().get(j).attackAlienMember();
-                        if (getPlayer().getHp() < 1) {
-                            setPlayerOver(true);
-                            break;
-                        }
-                    }
-                } else {
-                    for (int j = 0; j < getShip().getRooms().get(i).getAliens().size(); j++) {
-                        getShip().getRooms().get(i).getAliens().get(j).attackAlienShip();
-                        if (getShip().getHull() < 1) {
-                            setShipOver(true);
-                            break;
-                        }
-                    }
-                }
-            }
-            if (getPlayer().getHp() < 1 || getShip().getHull() < 1) {
-                setGameOver(true);
-                break;
-            }
-        }
-    }
-    
-    public void gainOneAttackDie(Members member){
-        if(member.getAttack()<3){
-            member.setAttack(member.getAttack()+1);
-        }else{
+    public void gainOneAttackDie(Members member) {
+        if (member.getAttack() < 3) {
+            member.setAttack(member.getAttack() + 1);
+        } else {
             member.setAttack(3);
         }
     }
-    
-    public int AttackPlayer(){
-       return (int) (Math.random() * 6 + 1) + addToResult;
+
+    public int attackPlayer() {
+        return (int) (Math.random() * 6 + 1) + addToResult;
+    }
+
+    public void movePlayerTo(ShipRooms room, Members member, int option) {
+        room.removeUser(member);
+        room.getNeighbours().get(option - 1).setUser(member);
     }
 }

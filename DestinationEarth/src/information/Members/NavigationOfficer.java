@@ -11,7 +11,7 @@ package information.Members;
  */
 public class NavigationOfficer extends Members{
     public NavigationOfficer(){
-        name = "NavigatioOfficer";
+        name = "NavigationOfficer";
         attack = 1;
         movement = 2;
     }
