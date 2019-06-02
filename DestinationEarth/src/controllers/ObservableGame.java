@@ -88,8 +88,8 @@ public class ObservableGame extends Observable {
         notifyObservers();
     }
     
-    public void chooseOption(){
-        game.chooseApOption(0, null, null, 0, 0);// so a funcionar para o skip!
+    public void chooseOption(int action, ShipRooms room, Members member, int option2, int attack){
+        game.chooseApOption(action, room, member, option2, attack);// so a funcionar para o skip!
         setChanged();
         notifyObservers();
     }
