@@ -126,8 +126,6 @@ public class ShipPanel extends JPanel implements Observer {
             game.journeyTracker(game.getJourneyStep().length()); // Ver se o proximo turn e REST e apager todos os alliens
             //fase de batalha
         }
-        g.drawImage(getImagem(game, 1), 415, 150, x / 16, ((getHeight() / 23)) - 1, null);
-        g.drawImage(getImagem(game, 4),200, 150, x / 16, ((getHeight() / 23)) - 1, null);
         // meter os membros a aparecer em cada sala!!
         for (int i = 0; i < 12; i++) {
             if (game.getRooms().get(i).getName().equalsIgnoreCase("Bridge")) {

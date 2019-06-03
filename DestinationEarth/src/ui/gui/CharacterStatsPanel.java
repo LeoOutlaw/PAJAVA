@@ -278,6 +278,16 @@ public class CharacterStatsPanel extends JPanel implements Observer {
                 }
             }
         }
+        
+        for(int i = 0; i < game.getGame().getGameData().getOrganicDetonator(); i++){
+            g.drawImage(getImagem(game, 20), 295, 115, x / 20, ((getHeight() / 28)) - 1, null);
+        }
+        for(int i = 0; i < game.getGame().getGameData().getParticleDisperser(); i++){
+            g.drawImage(getImagem(game, 20), 295, 115, x / 20, ((getHeight() / 28)) - 1, null);
+        }
+        for(int i = 0; i < game.getGame().getGameData().getSealedRoom(); i++){
+            g.drawImage(getImagem(game, 20), 295, 115, x / 20, ((getHeight() / 28)) - 1, null);
+        }
 
     }
 
