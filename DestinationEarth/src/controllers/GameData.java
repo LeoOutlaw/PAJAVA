@@ -53,13 +53,12 @@ public class GameData {
         settings = new Settings();
         numAlliens = 15;
     }
-    
-    public Members getCarta(int area){ //Retorna o Objecto carta da area actual
+
+    public Members getCarta(int area) { //Retorna o Objecto carta da area actual
         return member.get(area);
     }
-    
-    public String getStringCarta(int area)
-    {
+
+    public String getStringCarta(int area) {
         return getCarta(area).getName();
     }
 
@@ -190,7 +189,10 @@ public class GameData {
     }
 
     public void movePlayerTo(ShipRooms room, Members member, int option) {
-        room.removeUser(member);
-        room.getNeighbours().get(option - 1).setUser(member);
+        if (!room.getNeighbours().get(option - 1).isSealed()) {
+            room.removeUser(member);
+            room.getNeighbours().get(option - 1).setUser(member);
+            decementActionPoints();
+        }
     }
 }

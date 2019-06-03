@@ -27,7 +27,7 @@ public class DestinationEarthPanel extends JPanel {
     SettingsPanel settingsPanel;
     CardsPanel cardsPanel;
     ShipPanel shipPanel;
-    MensagesPanel mensagesPanel;
+    InspPointsPanel inspPointsPanel;
     ActionPointsPanel actionPanel;
 
     public DestinationEarthPanel(ObservableGame game) {
@@ -44,7 +44,7 @@ public class DestinationEarthPanel extends JPanel {
         caraStatsPanel = new CharacterStatsPanel(game);
         cardsPanel = new CardsPanel(game);
         shipPanel = new ShipPanel(game);
-        mensagesPanel= new MensagesPanel(game);
+        inspPointsPanel = new InspPointsPanel(game);
         actionPanel = new ActionPointsPanel(game);
     }
 
@@ -58,24 +58,23 @@ public class DestinationEarthPanel extends JPanel {
         pEast.add(settingsPanel, BorderLayout.WEST);
         pEast.add(cardsPanel, BorderLayout.NORTH);
         pCenter = new JPanel();
-        pCenter.setLayout(new GridLayout(1, 3,0, 0));
+        pCenter.setLayout(new GridLayout(1, 3, 0, 0));
         pCenter.add(caraStatsPanel);
         pCenter.add(shipPanel);
-        
+
         pWest = new JPanel();
         pWest.setLayout(new BorderLayout());
-        
 
         pSouth = new JPanel();
-        pSouth.setLayout(new GridLayout(2, 1,0, 0));
-        pSouth.add(mensagesPanel);
+        pSouth.setLayout(new GridLayout(2, 1, 0, 0));
         pSouth.add(actionPanel);
-        
+        pSouth.add(inspPointsPanel);
+
         pCenter.add(pSouth);
 
         add(pCenter, BorderLayout.CENTER);
         add(pWest, BorderLayout.WEST);
-        add(pEast,BorderLayout.EAST);
+        add(pEast, BorderLayout.EAST);
 
         validate();
     }

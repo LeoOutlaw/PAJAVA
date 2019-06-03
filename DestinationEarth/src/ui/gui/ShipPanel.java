@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 public class ShipPanel extends JPanel implements Observer {
 
     ObservableGame game;
-    String imageFiles[] = {"imagens/ShipBoard.jpg", "imagens/Blue.jpg", "imagens/Yellow.jpg", "imagens/Orange.jpg", "imagens/Black.png", "imagens/White.jpg", "imagens/Green.jpg"};
+    String imageFiles[] = {"imagens/ShipBoard.jpg", "imagens/Blue.jpg", "imagens/Yellow.jpg", "imagens/Orange.jpg", "imagens/Black.png", "imagens/White.jpg", "imagens/Green.jpg", "imagens/Purple.png", "imagens/Red.jpg"};
     Image imagem[] = new Image[imageFiles.length];
     boolean loaded = false;
 
@@ -127,103 +127,194 @@ public class ShipPanel extends JPanel implements Observer {
             //fase de batalha
         }
         g.drawImage(getImagem(game, 1), 415, 150, x / 16, ((getHeight() / 23)) - 1, null);
+        g.drawImage(getImagem(game, 4),200, 150, x / 16, ((getHeight() / 23)) - 1, null);
         // meter os membros a aparecer em cada sala!!
         for (int i = 0; i < 12; i++) {
             if (game.getRooms().get(i).getName().equalsIgnoreCase("Bridge")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 0, 0, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 0, 0, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 100, 100, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 100, 70, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if (game.getRooms().get(i).isHasOrganicDetonator()) {
+                    g.drawImage(getImagem(game, 3), 130, 70, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isHasParticleDisperser()) {
+                    g.drawImage(getImagem(game, 4), 130, 100, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Brig")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 30, 50, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 30, 50, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 90, 160, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 60, 160, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if (game.getRooms().get(i).isHasOrganicDetonator()) {
+                    g.drawImage(getImagem(game, 3), 90, 200, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isHasParticleDisperser()) {
+                    g.drawImage(getImagem(game, 4), 130, 200, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isSealed()) {
+                    g.drawImage(getImagem(game, 5), 60, 200, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("CrewQuarters")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 70, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 70, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 275, 160, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 330, 160, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if (game.getRooms().get(i).isHasOrganicDetonator()) {
+                    g.drawImage(getImagem(game, 3), 330, 200, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isHasParticleDisperser()) {
+                    g.drawImage(getImagem(game, 4), 300, 180, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isSealed()) {
+                    g.drawImage(getImagem(game, 5), 275, 200, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Astrometrics")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 90, 130, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 90, 130, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 135, 340, x / 20, ((getHeight() / 28)), null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 170, 340, x / 20, ((getHeight() / 28)), null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),135, 380, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),170, 380, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("ConferenceRoom")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 120, 200, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 120, 200, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 135, 160, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 170, 160, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),135, 200, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),170, 200, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Engeneering")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 70, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 70, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 90, 270, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 60, 270, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),90, 310, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),75, 290, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isSealed()) {
+                    g.drawImage(getImagem(game, 5), 60, 310, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Holodeck")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 300, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 300, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 275, 270, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 330, 270, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),330, 310, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),300, 290, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isSealed()) {
+                    g.drawImage(getImagem(game, 5), 275, 310, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("MessHall")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 240, 300, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 240, 300, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 200, 160, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 235, 160, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),200, 200, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),235, 200, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Hydroponics")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 70, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 70, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 90, 380, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 60, 380, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),90, 410, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),75, 390, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isSealed()) {
+                    g.drawImage(getImagem(game, 5), 60, 410, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Shuttlebay")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 70, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 70, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 155, 510, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 210, 510, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),155, 535, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),210, 535, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("SickBay")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 70, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 70, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 200, 340, x / 20, ((getHeight() / 28)), null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 235, 340, x / 20, ((getHeight() / 28)), null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),200, 380, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),235, 380, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             } else if (game.getRooms().get(i).getName().equalsIgnoreCase("WeaponsBay")) {
                 if (!game.getRooms().get(i).getUser().isEmpty()) {
-                    if (game.getRooms().get(i).getUser() == game.getMember().get(0)) {
-                        g.drawImage(getImagem(game, 3), 70, 100, x / 15, ((getHeight() / 20)), null);
-                    } else {
-                        g.drawImage(getImagem(game, 2), 70, 100, x / 15, ((getHeight() / 20)), null);
+                    if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(0).getName())) {
+                        g.drawImage(getImagem(game, 7), 275, 380, x / 20, ((getHeight() / 28)) - 1, null);
+                    } else if (game.getRooms().get(i).getUser().get(0).getName().equals(game.getMember().get(1).getName())) {
+                        g.drawImage(getImagem(game, 8), 330, 380, x / 20, ((getHeight() / 28)) - 1, null);
                     }
+                }
+                if(game.getRooms().get(i).isHasOrganicDetonator()){
+                    g.drawImage(getImagem(game, 3),330, 410, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if(game.getRooms().get(i).isHasParticleDisperser()){
+                    g.drawImage(getImagem(game, 4),305, 390, x / 20, ((getHeight() / 28)) - 1, null);
+                }
+                if (game.getRooms().get(i).isSealed()) {
+                    g.drawImage(getImagem(game, 5), 275, 410, x / 20, ((getHeight() / 28)) - 1, null);
                 }
             }
         }
@@ -232,29 +323,29 @@ public class ShipPanel extends JPanel implements Observer {
         for (int i = 0; i < 12; i++) {
             if (!game.getRooms().get(i).getAliens().isEmpty()) {
                 if (game.getRooms().get(i).getName().equalsIgnoreCase("Bridge")) {
-                        g.drawImage(getImagem(game, 6 ), 0, 0, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 200, 70, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Brig")) {
-                        g.drawImage(getImagem(game, 6), 30, 50, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 50, 200, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("CrewQuarters")) {
-                        g.drawImage(getImagem(game, 6), 70, 100, x / 20, ((getHeight() / 28)), null); 
+                    g.drawImage(getImagem(game, 6), 275, 200, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Astrometrics")) {
-                        g.drawImage(getImagem(game, 6), 90, 130, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 135, 400, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("ConferenceRoom")) {
-                        g.drawImage(getImagem(game, 6), 120, 200, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 135, 200, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Engeneering")) {
-                        g.drawImage(getImagem(game, 6), 70, 100, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 60, 320, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Holodeck")) {
-                        g.drawImage(getImagem(game, 6), 300, 100, x / 20, ((getHeight() / 28)), null); 
+                    g.drawImage(getImagem(game, 6), 275, 320, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("MessHall")) {
-                        g.drawImage(getImagem(game, 6), 240, 300, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 210, 210, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Hydroponics")) {
-                        g.drawImage(getImagem(game, 6), 70, 100, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 60, 420, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("Shuttlebay")) {
-                        g.drawImage(getImagem(game, 6), 70, 100, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 155, 560, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("SickBay")) {
-                        g.drawImage(getImagem(game, 6), 70, 100, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 210, 400, x / 20, ((getHeight() / 28)), null);
                 } else if (game.getRooms().get(i).getName().equalsIgnoreCase("WeaponsBay")) {
-                        g.drawImage(getImagem(game, 6), 70, 100, x / 20, ((getHeight() / 28)), null);
+                    g.drawImage(getImagem(game, 6), 275, 420, x / 20, ((getHeight() / 28)), null);
 
                 }
             }

@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 public class CharacterStatsPanel extends JPanel implements Observer {
 
     ObservableGame game;
-    String imageFiles[] = {"imagens/PlayerBoard.jpg", "imagens/Blue.jpg", "imagens/Yellow.jpg", "imagens/Orange.jpg", "imagens/Black.png", "imagens/Green.jpg", "imagens/White.jpg", "imagens/Doctor.jpg", "imagens/Captain.jpg", "imagens/Commander.jpg", "imagens/Comm'sOfficer.jpg", "imagens/Engineer.jpg", "imagens/MoralOfficer.jpg", "imagens/NavigationOfficer.jpg", "imagens/RedShirt.jpg", "imagens/ScienceOfficer.jpg", "imagens/SecurityOfficer.jpg", "imagens/ShuttlePilot.jpg", "imagens/TransporterChief.jpg"};
+    String imageFiles[] = {"imagens/PlayerBoard.jpg", "imagens/Blue.jpg", "imagens/Yellow.jpg", "imagens/Orange.jpg", "imagens/Black.png", "imagens/Green.jpg", "imagens/White.jpg", "imagens/Doctor.jpg", "imagens/Captain.jpg", "imagens/Commander.jpg", "imagens/Comm'sOfficer.jpg", "imagens/Engineer.jpg", "imagens/MoralOfficer.jpg", "imagens/NavigationOfficer.jpg", "imagens/RedShirt.jpg", "imagens/ScienceOfficer.jpg", "imagens/SecurityOfficer.jpg", "imagens/ShuttlePilot.jpg", "imagens/TransporterChief.jpg", "imagens/Purple.png", "imagens/Red.jpg"};
     Image imagem[] = new Image[imageFiles.length];
     boolean loaded = false;
 
@@ -217,8 +217,68 @@ public class CharacterStatsPanel extends JPanel implements Observer {
                 }
             }
         }
-        
+
         game.setupMembers();
+
+        for (int i = 0; i < game.getMember().size(); i++) {
+            if (i == 0) {
+                switch (game.getMember().get(0).getMovement()) {
+                    case 1:
+                        g.drawImage(getImagem(game, 19), 50, 60, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 2:
+                        g.drawImage(getImagem(game, 19), 80, 60, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 3:
+                        g.drawImage(getImagem(game, 19), 115, 60, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    default:
+                        break;
+                }
+                switch (game.getMember().get(0).getAttack()) {
+                    case 1:
+                        g.drawImage(getImagem(game, 19), 50, 115, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 2:
+                        g.drawImage(getImagem(game, 19), 80, 115, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 3:
+                        g.drawImage(getImagem(game, 19), 110, 115, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    default:
+                        break;
+                }
+
+            } else {
+                switch (game.getMember().get(1).getMovement()) {
+                    case 1:
+                        g.drawImage(getImagem(game, 20), 235, 60, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 2:
+                        g.drawImage(getImagem(game, 20), 265, 60, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 3:
+                        g.drawImage(getImagem(game, 20), 295, 60, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    default:
+                        break;
+                }
+                switch (game.getMember().get(1).getAttack()) {
+                    case 1:
+                        g.drawImage(getImagem(game, 20), 235, 115, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 2:
+                        g.drawImage(getImagem(game, 20), 265, 115, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    case 3:
+                        g.drawImage(getImagem(game, 20), 295, 115, x / 20, ((getHeight() / 28)) - 1, null);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
     }
 
     @Override

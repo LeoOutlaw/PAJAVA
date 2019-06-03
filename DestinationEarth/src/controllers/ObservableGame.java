@@ -88,6 +88,20 @@ public class ObservableGame extends Observable {
         notifyObservers();
     }
     
+    public void chooseInsp(int action, Members member){
+        game.chooseOption(action, member);
+        
+        setChanged();
+        notifyObservers();
+    }
+    
+    public void removeAlliens(){
+        game.clearAliens();
+        
+        setChanged();
+        notifyObservers();
+    }
+    
     public void chooseOption(int action, ShipRooms room, Members member, int option2, int attack){
         game.chooseApOption(action, room, member, option2, attack);// so a funcionar para o skip!
         setChanged();
@@ -145,4 +159,5 @@ public class ObservableGame extends Observable {
     public String getJourneyStep() {
         return game.getGameData().getJourneyStep();
     }
+    
 }

@@ -30,7 +30,6 @@ public class AwaitCrewPhase extends IStatesAdapter {
                 return new AwaitAlienPhase(getGameData());
             case 1:
                 getGameData().movePlayerTo(room, member, option2);
-                getGameData().decementActionPoints();
                 break;
             case 2:
                 for (int i = 0; i < rooms.size(); i++) {
